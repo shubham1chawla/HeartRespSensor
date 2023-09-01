@@ -14,6 +14,7 @@
 		5126DAF62AA1378C0099E40D /* SymptomsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5126DAF52AA1378C0099E40D /* SymptomsView.swift */; };
 		5126DAF92AA17CFD0099E40D /* HeartRespSensor.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 5126DAF72AA17CFD0099E40D /* HeartRespSensor.xcdatamodeld */; };
 		5126DAFB2AA17D780099E40D /* DataController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5126DAFA2AA17D780099E40D /* DataController.swift */; };
+		51FBFBC32AA2998A00C30FAD /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51FBFBC22AA2998A00C30FAD /* Constants.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -25,6 +26,7 @@
 		5126DAF52AA1378C0099E40D /* SymptomsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SymptomsView.swift; sourceTree = "<group>"; };
 		5126DAF82AA17CFD0099E40D /* HeartRespSensor.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = HeartRespSensor.xcdatamodel; sourceTree = "<group>"; };
 		5126DAFA2AA17D780099E40D /* DataController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataController.swift; sourceTree = "<group>"; };
+		51FBFBC22AA2998A00C30FAD /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -58,6 +60,7 @@
 			isa = PBXGroup;
 			children = (
 				5126DAE72AA135FA0099E40D /* HeartRespSensorApp.swift */,
+				51FBFBC22AA2998A00C30FAD /* Constants.swift */,
 				5126DAFA2AA17D780099E40D /* DataController.swift */,
 				5126DAE92AA135FA0099E40D /* HomeView.swift */,
 				5126DAF52AA1378C0099E40D /* SymptomsView.swift */,
@@ -147,6 +150,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				5126DAFB2AA17D780099E40D /* DataController.swift in Sources */,
+				51FBFBC32AA2998A00C30FAD /* Constants.swift in Sources */,
 				5126DAF92AA17CFD0099E40D /* HeartRespSensor.xcdatamodeld in Sources */,
 				5126DAF62AA1378C0099E40D /* SymptomsView.swift in Sources */,
 				5126DAEA2AA135FA0099E40D /* HomeView.swift in Sources */,

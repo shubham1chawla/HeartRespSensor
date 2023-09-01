@@ -8,10 +8,13 @@
 import SwiftUI
 
 struct SymptomsView: View {
-    @FetchRequest(sortDescriptors: []) var symptoms: FetchedResults<Symptom>
+    @Environment(\.managedObjectContext) var moc
+    @FetchRequest(sortDescriptors: [NSSortDescriptor(key: "id", ascending: true)]) var symptoms: FetchedResults<Symptom>
     
-    @State private var selected: Int = 1
-    @State private var intensity: Int = 0
+    @State private var symptomId: Int = 1
+    @State private var intensity: Int = 1
+    
+    private let defaults = UserDefaults.standard
     
     var body: some View {
         VStack {
@@ -19,15 +22,15 @@ struct SymptomsView: View {
                 .font(.title)
                 .padding()
             Spacer()
-            Picker(selection: $selected, label: Text("Symptom")) {
+            Picker(selection: $symptomId, label: Text("Symptom")) {
                 ForEach(symptoms, id: \.self) { symptom in
-                    Text(symptom.name ?? "Unknown").tag(symptom.id)
+                    Text(symptom.name!).tag(Int(symptom.id))
                 }
             }
             .pickerStyle(.wheel)
             .padding()
             Picker(selection: $intensity, label: Text("Intensity")) {
-                ForEach(0...5, id: \.self) {
+                ForEach(1...5, id: \.self) {
                     Text("\($0)").tag($0)
                 }
             }
@@ -35,10 +38,19 @@ struct SymptomsView: View {
             .padding()
             Spacer()
             Button("Add Symptom") {
-                print("\(selected) - \(intensity)")
+                addUserSymptom()
             }
         }
     }
+    
+    func addUserSymptom() -> Void {
+        let userSymptom = UserSymptom(context: moc)
+        userSymptom.sessionId = defaults.string(forKey: Keys.LAST_USER_SESSION)!
+        userSymptom.intensity = Int16(intensity)
+        userSymptom.symptomId = Int16(symptomId)
+        try? moc.save()
+    }
+    
 }
 
 struct SymptomsView_Previews: PreviewProvider {
