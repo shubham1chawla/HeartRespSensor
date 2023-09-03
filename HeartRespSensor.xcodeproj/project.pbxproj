@@ -15,6 +15,9 @@
 		5126DAF92AA17CFD0099E40D /* HeartRespSensor.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 5126DAF72AA17CFD0099E40D /* HeartRespSensor.xcdatamodeld */; };
 		5126DAFB2AA17D780099E40D /* DataController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5126DAFA2AA17D780099E40D /* DataController.swift */; };
 		51FBFBC32AA2998A00C30FAD /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51FBFBC22AA2998A00C30FAD /* Constants.swift */; };
+		51FBFBC52AA4897A00C30FAD /* CameraService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51FBFBC42AA4897A00C30FAD /* CameraService.swift */; };
+		51FBFBC72AA48E4900C30FAD /* CameraPreviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51FBFBC62AA48E4900C30FAD /* CameraPreviewView.swift */; };
+		51FBFBC92AA4926800C30FAD /* CameraView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51FBFBC82AA4926800C30FAD /* CameraView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -27,6 +30,9 @@
 		5126DAF82AA17CFD0099E40D /* HeartRespSensor.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = HeartRespSensor.xcdatamodel; sourceTree = "<group>"; };
 		5126DAFA2AA17D780099E40D /* DataController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataController.swift; sourceTree = "<group>"; };
 		51FBFBC22AA2998A00C30FAD /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		51FBFBC42AA4897A00C30FAD /* CameraService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraService.swift; sourceTree = "<group>"; };
+		51FBFBC62AA48E4900C30FAD /* CameraPreviewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraPreviewView.swift; sourceTree = "<group>"; };
+		51FBFBC82AA4926800C30FAD /* CameraView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -64,6 +70,9 @@
 				5126DAFA2AA17D780099E40D /* DataController.swift */,
 				5126DAE92AA135FA0099E40D /* HomeView.swift */,
 				5126DAF52AA1378C0099E40D /* SymptomsView.swift */,
+				51FBFBC42AA4897A00C30FAD /* CameraService.swift */,
+				51FBFBC62AA48E4900C30FAD /* CameraPreviewView.swift */,
+				51FBFBC82AA4926800C30FAD /* CameraView.swift */,
 				5126DAF72AA17CFD0099E40D /* HeartRespSensor.xcdatamodeld */,
 				5126DAEB2AA135FB0099E40D /* Assets.xcassets */,
 				5126DAED2AA135FB0099E40D /* Preview Content */,
@@ -152,9 +161,12 @@
 				5126DAFB2AA17D780099E40D /* DataController.swift in Sources */,
 				51FBFBC32AA2998A00C30FAD /* Constants.swift in Sources */,
 				5126DAF92AA17CFD0099E40D /* HeartRespSensor.xcdatamodeld in Sources */,
+				51FBFBC92AA4926800C30FAD /* CameraView.swift in Sources */,
 				5126DAF62AA1378C0099E40D /* SymptomsView.swift in Sources */,
 				5126DAEA2AA135FA0099E40D /* HomeView.swift in Sources */,
 				5126DAE82AA135FA0099E40D /* HeartRespSensorApp.swift in Sources */,
+				51FBFBC52AA4897A00C30FAD /* CameraService.swift in Sources */,
+				51FBFBC72AA48E4900C30FAD /* CameraPreviewView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -286,6 +298,7 @@
 				DEVELOPMENT_TEAM = 4Z6YAT98PW;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSCameraUsageDescription = "Please allow us take a video recording for the heart rate measurement.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -315,6 +328,7 @@
 				DEVELOPMENT_TEAM = 4Z6YAT98PW;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSCameraUsageDescription = "Please allow us take a video recording for the heart rate measurement.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;

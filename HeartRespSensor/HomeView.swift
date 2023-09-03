@@ -22,8 +22,8 @@ struct HomeView: View {
                         Text("\(heartRate, specifier: "%.2f")")
                             .font(.largeTitle)
                             .padding()
-                        Button {
-                            print("Clicked HR")
+                        NavigationLink {
+                            CameraView()
                         } label: {
                             Image(systemName: "heart")
                             Text("Measure Heart Rate")
