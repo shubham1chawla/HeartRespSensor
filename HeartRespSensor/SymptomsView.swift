@@ -13,6 +13,7 @@ struct SymptomsView: View {
     
     @State private var symptomId: Int = 1
     @State private var intensity: Int = 1
+    @State private var showUploadedAlert: Bool = false
     
     private let defaults = UserDefaults.standard
     
@@ -37,8 +38,16 @@ struct SymptomsView: View {
             .pickerStyle(.segmented)
             .padding()
             Spacer()
-            Button("Add Symptom") {
+            Button {
                 addUserSymptom()
+                showUploadedAlert.toggle()
+            } label: {
+                Image(systemName: "square.and.arrow.up")
+                Text("Upload Symptom")
+            }
+            .buttonStyle(.borderedProminent)
+            .alert("Your selected symptom has been recorded.", isPresented: $showUploadedAlert) {
+                Button("Dismiss", role: .cancel) {}
             }
         }
     }

@@ -13,19 +13,6 @@ class DataController: ObservableObject {
     let container = NSPersistentContainer(name: "HeartRespSensor")
     let defaults = UserDefaults.standard
     
-    let defaultSymptoms = [
-        1: "Fever",
-        2: "Nausea",
-        3: "Headache",
-        4: "Diarrhea",
-        5: "Soar Throat",
-        6: "Muscle Ache",
-        7: "Loss of Smell or Taste",
-        8: "Cough",
-        9: "Shortness of Breath",
-        10: "Feeling Tired"
-    ]
-    
     init() {
         // Setting up container
         container.loadPersistentStores { description, error in
@@ -35,7 +22,8 @@ class DataController: ObservableObject {
         }
         
         // Printing SQLite location for debugging
-        logSqlitePath()
+        let path = getSqlitePath()
+        print("SQLite: \(path!)")
         
         // Checking if list of symptoms exists
         if (!isSymptomsPreloaded()) {
@@ -69,13 +57,12 @@ class DataController: ObservableObject {
         defaults.set(session.uuid, forKey: Keys.LAST_USER_SESSION)
     }
     
-    func logSqlitePath() -> Void {
-        let path = NSPersistentContainer
+    func getSqlitePath() -> String? {
+        return NSPersistentContainer
             .defaultDirectoryURL()
             .absoluteString
             .replacingOccurrences(of: "file://", with: "")
             .removingPercentEncoding
-        print("SQLite: \(path ?? "Not found")")
     }
     
 }

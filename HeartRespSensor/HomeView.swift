@@ -8,39 +8,56 @@
 import SwiftUI
 
 struct HomeView: View {
+    @Environment(\.managedObjectContext) var moc
+    
+    @State private var heartRate: Double = 0
+    @State private var respRate: Double = 0
+    
     var body: some View {
         NavigationStack {
             VStack {
                 Spacer()
-                HStack {
+                VStack {
                     VStack {
-                        Text("69.69")
+                        Text("\(heartRate, specifier: "%.2f")")
                             .font(.largeTitle)
                             .padding()
-                        Button("Heart Rate") {
+                        Button {
                             print("Clicked HR")
+                        } label: {
+                            Image(systemName: "heart")
+                            Text("Measure Heart Rate")
                         }
                     }
+                    Divider()
+                        .padding()
                     VStack {
-                        Text("420")
+                        Text("\(respRate, specifier: "%.2f")")
                             .font(.largeTitle)
                             .padding()
-                        Button("Respiratory Rate") {
+                        Button {
                             print("Clicked RR")
+                        } label: {
+                            Image(systemName: "lungs")
+                            Text("Measure Respiratory Rate")
                         }
                     }
                 }
-                .padding()
+                    .padding()
                 Spacer()
                 HStack {
                     NavigationLink {
                         SymptomsView()
                     } label: {
-                        Text("Symptoms")
+                        Image(systemName: "plus.app")
+                        Text("Add Symptoms")
                     }
                     .buttonStyle(.bordered)
-                    Button("Upload Signs") {
+                    Button {
                         
+                    } label: {
+                        Image(systemName: "square.and.arrow.up")
+                        Text("Upload Signs")
                     }.buttonStyle(.borderedProminent)
                 }
                 .padding()
