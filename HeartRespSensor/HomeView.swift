@@ -12,6 +12,7 @@ struct HomeView: View {
     
     @State private var heartRate: Double = 0
     @State private var respRate: Double = 0
+    @State private var isSymptomsSheetPresented: Bool = false
     
     var body: some View {
         NavigationStack {
@@ -20,7 +21,7 @@ struct HomeView: View {
                 VStack {
                     VStack {
                         Text("\(heartRate, specifier: "%.2f")")
-                            .font(.largeTitle)
+                            .font(.title)
                             .padding()
                         NavigationLink {
                             CameraView()
@@ -46,15 +47,18 @@ struct HomeView: View {
                     .padding()
                 Spacer()
                 HStack {
-                    NavigationLink {
-                        SymptomsView()
+                    Button {
+                        isSymptomsSheetPresented.toggle()
                     } label: {
                         Image(systemName: "plus.app")
                         Text("Add Symptoms")
                     }
                     .buttonStyle(.bordered)
+                    .sheet(isPresented: $isSymptomsSheetPresented) {
+                        SymptomsView(isSymptomsSheetPresented: $isSymptomsSheetPresented)
+                    }
                     Button {
-                        
+                        print("Clicked Upload")
                     } label: {
                         Image(systemName: "square.and.arrow.up")
                         Text("Upload Signs")

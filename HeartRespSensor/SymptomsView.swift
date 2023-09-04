@@ -15,6 +15,8 @@ struct SymptomsView: View {
     @State private var intensity: Int = 1
     @State private var showUploadedAlert: Bool = false
     
+    @Binding var isSymptomsSheetPresented: Bool
+    
     private let defaults = UserDefaults.standard
     
     var body: some View {
@@ -47,7 +49,9 @@ struct SymptomsView: View {
             }
             .buttonStyle(.borderedProminent)
             .alert("Your selected symptom has been recorded.", isPresented: $showUploadedAlert) {
-                Button("Dismiss", role: .cancel) {}
+                Button("Dismiss", role: .cancel) {
+                    isSymptomsSheetPresented.toggle()
+                }
             }
         }
     }
@@ -60,10 +64,4 @@ struct SymptomsView: View {
         try? moc.save()
     }
     
-}
-
-struct SymptomsView_Previews: PreviewProvider {
-    static var previews: some View {
-        SymptomsView()
-    }
 }
