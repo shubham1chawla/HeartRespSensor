@@ -1,5 +1,5 @@
 //
-//  DataController.swift
+//  DataService.swift
 //  HeartRespSensor
 //
 //  Created by Shubham Chawla on 8/31/23.
@@ -8,9 +8,9 @@
 import CoreData
 import Foundation
 
-class DataController: ObservableObject {
+class DataService: ObservableObject {
     
-    let container = NSPersistentContainer(name: "HeartRespSensor")
+    let container = NSPersistentContainer(name: Keys.APPLICATION_NAME)
     let defaults = UserDefaults.standard
     
     init() {

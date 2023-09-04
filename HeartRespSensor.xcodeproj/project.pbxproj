@@ -13,7 +13,7 @@
 		5126DAEF2AA135FB0099E40D /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5126DAEE2AA135FB0099E40D /* Preview Assets.xcassets */; };
 		5126DAF62AA1378C0099E40D /* SymptomsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5126DAF52AA1378C0099E40D /* SymptomsView.swift */; };
 		5126DAF92AA17CFD0099E40D /* HeartRespSensor.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 5126DAF72AA17CFD0099E40D /* HeartRespSensor.xcdatamodeld */; };
-		5126DAFB2AA17D780099E40D /* DataController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5126DAFA2AA17D780099E40D /* DataController.swift */; };
+		5126DAFB2AA17D780099E40D /* DataService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5126DAFA2AA17D780099E40D /* DataService.swift */; };
 		51FBFBC32AA2998A00C30FAD /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51FBFBC22AA2998A00C30FAD /* Constants.swift */; };
 		51FBFBC52AA4897A00C30FAD /* CameraService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51FBFBC42AA4897A00C30FAD /* CameraService.swift */; };
 		51FBFBC72AA48E4900C30FAD /* CameraPreviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51FBFBC62AA48E4900C30FAD /* CameraPreviewView.swift */; };
@@ -28,7 +28,7 @@
 		5126DAEE2AA135FB0099E40D /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		5126DAF52AA1378C0099E40D /* SymptomsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SymptomsView.swift; sourceTree = "<group>"; };
 		5126DAF82AA17CFD0099E40D /* HeartRespSensor.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = HeartRespSensor.xcdatamodel; sourceTree = "<group>"; };
-		5126DAFA2AA17D780099E40D /* DataController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataController.swift; sourceTree = "<group>"; };
+		5126DAFA2AA17D780099E40D /* DataService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataService.swift; sourceTree = "<group>"; };
 		51FBFBC22AA2998A00C30FAD /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		51FBFBC42AA4897A00C30FAD /* CameraService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraService.swift; sourceTree = "<group>"; };
 		51FBFBC62AA48E4900C30FAD /* CameraPreviewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraPreviewView.swift; sourceTree = "<group>"; };
@@ -65,14 +65,10 @@
 		5126DAE62AA135FA0099E40D /* HeartRespSensor */ = {
 			isa = PBXGroup;
 			children = (
+				51FBFBCB2AA673F700C30FAD /* Views */,
+				51FBFBCA2AA673D500C30FAD /* Services */,
 				5126DAE72AA135FA0099E40D /* HeartRespSensorApp.swift */,
 				51FBFBC22AA2998A00C30FAD /* Constants.swift */,
-				5126DAFA2AA17D780099E40D /* DataController.swift */,
-				5126DAE92AA135FA0099E40D /* HomeView.swift */,
-				5126DAF52AA1378C0099E40D /* SymptomsView.swift */,
-				51FBFBC42AA4897A00C30FAD /* CameraService.swift */,
-				51FBFBC62AA48E4900C30FAD /* CameraPreviewView.swift */,
-				51FBFBC82AA4926800C30FAD /* CameraView.swift */,
 				5126DAF72AA17CFD0099E40D /* HeartRespSensor.xcdatamodeld */,
 				5126DAEB2AA135FB0099E40D /* Assets.xcassets */,
 				5126DAED2AA135FB0099E40D /* Preview Content */,
@@ -86,6 +82,26 @@
 				5126DAEE2AA135FB0099E40D /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		51FBFBCA2AA673D500C30FAD /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				5126DAFA2AA17D780099E40D /* DataService.swift */,
+				51FBFBC42AA4897A00C30FAD /* CameraService.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		51FBFBCB2AA673F700C30FAD /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				5126DAE92AA135FA0099E40D /* HomeView.swift */,
+				5126DAF52AA1378C0099E40D /* SymptomsView.swift */,
+				51FBFBC62AA48E4900C30FAD /* CameraPreviewView.swift */,
+				51FBFBC82AA4926800C30FAD /* CameraView.swift */,
+			);
+			path = Views;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -158,7 +174,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5126DAFB2AA17D780099E40D /* DataController.swift in Sources */,
+				5126DAFB2AA17D780099E40D /* DataService.swift in Sources */,
 				51FBFBC32AA2998A00C30FAD /* Constants.swift in Sources */,
 				5126DAF92AA17CFD0099E40D /* HeartRespSensor.xcdatamodeld in Sources */,
 				51FBFBC92AA4926800C30FAD /* CameraView.swift in Sources */,

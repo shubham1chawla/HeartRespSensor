@@ -9,12 +9,12 @@ import SwiftUI
 
 @main
 struct HeartRespSensorApp: App {
-    @StateObject private var dataController = DataController()
+    @StateObject private var dataService = DataService()
     
     var body: some Scene {
         WindowGroup {
             HomeView()
-                .environment(\.managedObjectContext, dataController.container.viewContext)
+                .environment(\.managedObjectContext, dataService.container.viewContext)
         }
     }
 }

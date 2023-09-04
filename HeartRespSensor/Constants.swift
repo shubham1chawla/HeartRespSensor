@@ -8,6 +8,7 @@
 import Foundation
 
 public struct Keys {
+    static let APPLICATION_NAME = "HeartRespSensor"
     static let LAST_USER_SESSION = "lastUserSession"
 }
 
