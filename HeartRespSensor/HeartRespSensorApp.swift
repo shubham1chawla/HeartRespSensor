@@ -13,7 +13,7 @@ struct HeartRespSensorApp: App {
     
     var body: some Scene {
         WindowGroup {
-            HomeView()
+            DashboardView()
                 .environment(\.managedObjectContext, dataService.container.viewContext)
                 .environmentObject(dataService)
         }

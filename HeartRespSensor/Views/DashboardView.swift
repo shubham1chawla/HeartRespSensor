@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct HomeView: View {
+struct DashboardView: View {
     @State private var heartRate: Double = 0
     @State private var respRate: Double = 0
     @State private var isSymptomsSheetPresented: Bool = false
@@ -44,33 +44,42 @@ struct HomeView: View {
                 }
                     .padding()
                 Spacer()
+                Button {
+                    print("Clicked Upload")
+                } label: {
+                    Image(systemName: "square.and.arrow.up")
+                    Text("Upload Signs")
+                }.buttonStyle(.borderedProminent)
+            }
+            .navigationTitle("Dashboard")
+            .navigationBarTitleDisplayMode(.large)
+            .toolbar {
                 HStack {
-                    Button {
-                        isSymptomsSheetPresented.toggle()
+                    NavigationLink {
+                        HistoryView()
                     } label: {
-                        Image(systemName: "plus.app")
-                        Text("Add Symptoms")
+                        Image(systemName: "memories")
                     }
-                    .buttonStyle(.bordered)
                     .sheet(isPresented: $isSymptomsSheetPresented) {
                         SymptomsView(isSymptomsSheetPresented: $isSymptomsSheetPresented)
                     }
                     Button {
-                        print("Clicked Upload")
+                        isSymptomsSheetPresented.toggle()
                     } label: {
-                        Image(systemName: "square.and.arrow.up")
-                        Text("Upload Signs")
-                    }.buttonStyle(.borderedProminent)
+                        Image(systemName: "plus.app")
+                    }
+                    .sheet(isPresented: $isSymptomsSheetPresented) {
+                        SymptomsView(isSymptomsSheetPresented: $isSymptomsSheetPresented)
+                    }
                 }
-                .padding()
             }
             .padding()
         }
     }
 }
 
-struct ContentView_Previews: PreviewProvider {
+struct DashboardView_Previews: PreviewProvider {
     static var previews: some View {
-        HomeView()
+        DashboardView()
     }
 }
