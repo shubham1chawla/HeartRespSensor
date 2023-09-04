@@ -11,17 +11,17 @@ import AVFoundation
 class CameraService {
     
     private var session: AVCaptureSession?
-    private var delegate: AVCapturePhotoCaptureDelegate?
+    private var delegate: AVCaptureFileOutputRecordingDelegate?
     
-    private let output = AVCapturePhotoOutput()
+    private let output = AVCaptureMovieFileOutput()
     let previewLayer = AVCaptureVideoPreviewLayer()
     
-    func start(delegate: AVCapturePhotoCaptureDelegate, completion: @escaping (Error?) -> ()) {
+    func startSession(delegate: AVCaptureFileOutputRecordingDelegate, completion: @escaping (Error?) -> ()) -> Void {
         self.delegate = delegate
         setupCamera(completion: completion)
     }
     
-    func stop() {
+    func stopSession() -> Void {
         if let running = session?.isRunning {
             if running {
                 DispatchQueue.global(qos: .background).async {
@@ -32,8 +32,19 @@ class CameraService {
         }
     }
     
-    func capturePhoto(with settings: AVCapturePhotoSettings = AVCapturePhotoSettings()) {
-        output.capturePhoto(with: settings, delegate: delegate!)
+    func startRecording(sessionId: String) -> Void {
+        if output.isRecording {
+            return
+        }
+        let filePath = NSTemporaryDirectory() + "\(sessionId).mov"
+        output.startRecording(to: URL(filePath: filePath), recordingDelegate: delegate!)
+    }
+    
+    func stopRecording() -> Void {
+        if !output.isRecording {
+            return
+        }
+        output.stopRecording()
     }
     
     private func setupCamera(completion: @escaping (Error?) -> ()) -> Void {

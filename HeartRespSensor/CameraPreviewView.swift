@@ -12,13 +12,13 @@ struct CameraPreviewView: UIViewControllerRepresentable {
     typealias UIViewControllerType = UIViewController
     
     let cameraService: CameraService
-    let didFinishProcessingPhoto: (Result<AVCapturePhoto, Error>) -> ()
+    let didFinishRecordingTo: (Result<URL, Error>) -> ()
     
     func makeUIViewController(context: Context) -> UIViewController {
         // Starting the camera service
-        cameraService.start(delegate: context.coordinator) { error in
+        cameraService.startSession(delegate: context.coordinator) { error in
             if let error = error {
-                didFinishProcessingPhoto(.failure(error))
+                didFinishRecordingTo(.failure(error))
                 return
             }
         }
@@ -39,28 +39,28 @@ struct CameraPreviewView: UIViewControllerRepresentable {
     
     static func dismantleUIViewController(_ uiViewController: UIViewController, coordinator: Coordinator) {
         // Stopping the camera service
-        coordinator.parent.cameraService.stop()
+        coordinator.parent.cameraService.stopSession()
     }
     
     func makeCoordinator() -> Coordinator {
-        return Coordinator(self, didFinishProcessingPhoto: didFinishProcessingPhoto)
+        return Coordinator(self, didFinishRecordingTo: didFinishRecordingTo)
     }
     
-    class Coordinator: NSObject, AVCapturePhotoCaptureDelegate {
+    class Coordinator: NSObject, AVCaptureFileOutputRecordingDelegate {
         let parent: CameraPreviewView
-        private let didFinishProcessingPhoto: (Result<AVCapturePhoto, Error>) -> ()
+        private let didFinishRecordingTo: (Result<URL, Error>) -> ()
         
-        init(_ parent: CameraPreviewView, didFinishProcessingPhoto: @escaping (Result<AVCapturePhoto, Error>) -> ()) {
+        init(_ parent: CameraPreviewView, didFinishRecordingTo: @escaping (Result<URL, Error>) -> ()) {
             self.parent = parent
-            self.didFinishProcessingPhoto = didFinishProcessingPhoto
+            self.didFinishRecordingTo = didFinishRecordingTo
         }
         
-        func photoOutput(_ output: AVCapturePhotoOutput, didFinishProcessingPhoto photo: AVCapturePhoto, error: Error?) {
+        func fileOutput(_ output: AVCaptureFileOutput, didFinishRecordingTo outputFileURL: URL, from connections: [AVCaptureConnection], error: Error?) {
             if let error = error {
-                didFinishProcessingPhoto(.failure(error))
+                didFinishRecordingTo(.failure(error))
                 return
             }
-            didFinishProcessingPhoto(.success(photo))
+            didFinishRecordingTo(.success(outputFileURL))
         }
         
     }
