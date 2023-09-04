@@ -3,19 +3,22 @@
     <entity name="SensorRecord" representedClassName=".SensorRecord" syncable="YES" codeGenerationType="class">
         <attribute name="heartRate" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
         <attribute name="respRate" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
-        <attribute name="sessionId" attributeType="String"/>
-    </entity>
-    <entity name="Session" representedClassName=".Session" syncable="YES" codeGenerationType="class">
-        <attribute name="timestamp" attributeType="Date" usesScalarValueType="NO"/>
-        <attribute name="uuid" attributeType="String"/>
+        <relationship name="userSession" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="UserSession" inverseName="sensorRecord" inverseEntity="UserSession"/>
     </entity>
     <entity name="Symptom" representedClassName=".Symptom" syncable="YES" codeGenerationType="class">
-        <attribute name="id" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="id" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="name" attributeType="String"/>
+        <relationship name="userSymptoms" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="UserSymptom" inverseName="symptom" inverseEntity="UserSymptom"/>
+    </entity>
+    <entity name="UserSession" representedClassName=".UserSession" syncable="YES" codeGenerationType="class">
+        <attribute name="timestamp" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="uuid" attributeType="String"/>
+        <relationship name="sensorRecord" optional="YES" maxCount="1" deletionRule="Cascade" destinationEntity="SensorRecord" inverseName="userSession" inverseEntity="SensorRecord"/>
+        <relationship name="userSymptoms" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="UserSymptom" inverseName="userSession" inverseEntity="UserSymptom"/>
     </entity>
     <entity name="UserSymptom" representedClassName=".UserSymptom" syncable="YES" codeGenerationType="class">
         <attribute name="intensity" attributeType="Integer 16" minValueString="1" maxValueString="5" defaultValueString="1" usesScalarValueType="YES"/>
-        <attribute name="sessionId" attributeType="String"/>
-        <attribute name="symptomId" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <relationship name="symptom" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Symptom" inverseName="userSymptoms" inverseEntity="Symptom"/>
+        <relationship name="userSession" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="UserSession" inverseName="userSymptoms" inverseEntity="UserSession"/>
     </entity>
 </model>

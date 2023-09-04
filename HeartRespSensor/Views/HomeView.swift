@@ -8,8 +8,6 @@
 import SwiftUI
 
 struct HomeView: View {
-    @Environment(\.managedObjectContext) var moc
-    
     @State private var heartRate: Double = 0
     @State private var respRate: Double = 0
     @State private var isSymptomsSheetPresented: Bool = false

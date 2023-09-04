@@ -15,6 +15,7 @@ struct HeartRespSensorApp: App {
         WindowGroup {
             HomeView()
                 .environment(\.managedObjectContext, dataService.container.viewContext)
+                .environmentObject(dataService)
         }
     }
 }

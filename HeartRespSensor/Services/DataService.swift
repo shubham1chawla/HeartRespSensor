@@ -34,11 +34,11 @@ class DataService: ObservableObject {
         setUserSession()
     }
     
-    func isSymptomsPreloaded() -> Bool {
+    private func isSymptomsPreloaded() -> Bool {
         return defaults.string(forKey: Keys.LAST_USER_SESSION) != nil
     }
     
-    func preloadSymptoms() -> Void {
+    private func preloadSymptoms() -> Void {
         let moc = container.viewContext
         defaultSymptoms.forEach { id, name in
             let symptom = Symptom(context: moc)
@@ -48,21 +48,46 @@ class DataService: ObservableObject {
         }
     }
     
-    func setUserSession() -> Void {
+    private func setUserSession() -> Void {
         let moc = container.viewContext
-        let session = Session(context: moc)
-        session.uuid = UUID().uuidString
-        session.timestamp = Date()
+        let userSession = UserSession(context: moc)
+        userSession.uuid = UUID().uuidString
+        userSession.timestamp = Date()
         try? moc.save()
-        defaults.set(session.uuid, forKey: Keys.LAST_USER_SESSION)
+        defaults.set(userSession.uuid, forKey: Keys.LAST_USER_SESSION)
     }
     
-    func getSqlitePath() -> String? {
+    private func getSqlitePath() -> String? {
         return NSPersistentContainer
             .defaultDirectoryURL()
             .absoluteString
             .replacingOccurrences(of: "file://", with: "")
             .removingPercentEncoding
+    }
+    
+    func getCurrentUserSession() -> UserSession {
+        let sessionId = defaults.string(forKey: Keys.LAST_USER_SESSION)!
+        
+        // Creating the request
+        let request = UserSession.fetchRequest()
+        request.predicate = NSPredicate(format: "uuid CONTAINS %@", sessionId)
+        
+        // Fetching the user session
+        let moc = container.viewContext
+        return try! moc.fetch(request).first!
+    }
+    
+    func saveUserSymptom(symptom: Symptom, intensity: Int) -> Void {
+        let moc = container.viewContext
+        
+        // Creating user symptom instance
+        let userSymptom = UserSymptom(context: moc)
+        userSymptom.symptom = symptom
+        userSymptom.intensity = Int16(intensity)
+        userSymptom.userSession = getCurrentUserSession()
+        
+        // Saving the record
+        try? moc.save()
     }
     
 }

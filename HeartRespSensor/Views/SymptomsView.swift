@@ -8,14 +8,14 @@
 import SwiftUI
 
 struct SymptomsView: View {
-    @Environment(\.managedObjectContext) var moc
     @FetchRequest(sortDescriptors: [NSSortDescriptor(key: "id", ascending: true)]) var symptoms: FetchedResults<Symptom>
     
-    @State private var symptomId: Int = 1
+    @State private var symptomIndex: Int = 0
     @State private var intensity: Int = 1
     @State private var showUploadedAlert: Bool = false
     
     @Binding var isSymptomsSheetPresented: Bool
+    @EnvironmentObject var dataService: DataService
     
     private let defaults = UserDefaults.standard
     
@@ -25,9 +25,9 @@ struct SymptomsView: View {
                 .font(.title)
                 .padding()
             Spacer()
-            Picker(selection: $symptomId, label: Text("Symptom")) {
-                ForEach(symptoms, id: \.self) { symptom in
-                    Text(symptom.name!).tag(Int(symptom.id))
+            Picker(selection: $symptomIndex, label: Text("Symptom")) {
+                ForEach(Array(symptoms.enumerated()), id: \.element) { index, symptom in
+                    Text(symptom.name!).tag(index)
                 }
             }
             .pickerStyle(.wheel)
@@ -41,7 +41,7 @@ struct SymptomsView: View {
             .padding()
             Spacer()
             Button {
-                addUserSymptom()
+                dataService.saveUserSymptom(symptom: symptoms[symptomIndex], intensity: intensity)
                 showUploadedAlert.toggle()
             } label: {
                 Image(systemName: "square.and.arrow.up")
@@ -55,13 +55,4 @@ struct SymptomsView: View {
             }
         }
     }
-    
-    func addUserSymptom() -> Void {
-        let userSymptom = UserSymptom(context: moc)
-        userSymptom.sessionId = defaults.string(forKey: Keys.LAST_USER_SESSION)!
-        userSymptom.intensity = Int16(intensity)
-        userSymptom.symptomId = Int16(symptomId)
-        try? moc.save()
-    }
-    
 }
