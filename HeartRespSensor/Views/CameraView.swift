@@ -58,6 +58,7 @@ struct CameraView: View {
                         dismiss()
                     }
                 }
+                .navigationTitle("Heart Rate")
             }
         }
     }

@@ -18,28 +18,26 @@ struct DashboardView: View {
                 Spacer()
                 VStack {
                     VStack {
-                        Text("\(heartRate, specifier: "%.2f")")
-                            .font(.title)
-                            .padding()
                         NavigationLink {
                             CameraView()
                         } label: {
                             Image(systemName: "heart")
-                            Text("Measure Heart Rate")
+                            Text("\(heartRate, specifier: "%.2f")")
                         }
+                        .font(.largeTitle)
+                        .padding()
                     }
                     Divider()
                         .padding()
                     VStack {
-                        Text("\(respRate, specifier: "%.2f")")
-                            .font(.largeTitle)
-                            .padding()
                         Button {
                             print("Clicked RR")
                         } label: {
                             Image(systemName: "lungs")
-                            Text("Measure Respiratory Rate")
+                            Text("\(respRate, specifier: "%.2f")")
                         }
+                        .font(.largeTitle)
+                        .padding()
                     }
                 }
                     .padding()
@@ -52,7 +50,6 @@ struct DashboardView: View {
                 }.buttonStyle(.borderedProminent)
             }
             .navigationTitle("Dashboard")
-            .navigationBarTitleDisplayMode(.large)
             .toolbar {
                 HStack {
                     NavigationLink {
@@ -60,16 +57,10 @@ struct DashboardView: View {
                     } label: {
                         Image(systemName: "memories")
                     }
-                    .sheet(isPresented: $isSymptomsSheetPresented) {
-                        SymptomsView(isSymptomsSheetPresented: $isSymptomsSheetPresented)
-                    }
-                    Button {
-                        isSymptomsSheetPresented.toggle()
+                    NavigationLink {
+                        SymptomsView()
                     } label: {
                         Image(systemName: "plus.app")
-                    }
-                    .sheet(isPresented: $isSymptomsSheetPresented) {
-                        SymptomsView(isSymptomsSheetPresented: $isSymptomsSheetPresented)
                     }
                 }
             }

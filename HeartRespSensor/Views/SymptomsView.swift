@@ -14,16 +14,12 @@ struct SymptomsView: View {
     @State private var intensity: Int = 1
     @State private var showUploadedAlert: Bool = false
     
-    @Binding var isSymptomsSheetPresented: Bool
     @EnvironmentObject var dataService: DataService
     
     private let defaults = UserDefaults.standard
     
     var body: some View {
         VStack {
-            Text("Symptoms Logging Page")
-                .font(.title)
-                .padding()
             Spacer()
             Picker(selection: $symptomIndex, label: Text("Symptom")) {
                 ForEach(Array(symptoms.enumerated()), id: \.element) { index, symptom in
@@ -49,10 +45,10 @@ struct SymptomsView: View {
             }
             .buttonStyle(.borderedProminent)
             .alert("Your selected symptom has been recorded.", isPresented: $showUploadedAlert) {
-                Button("Dismiss", role: .cancel) {
-                    isSymptomsSheetPresented.toggle()
-                }
+                Button("Dismiss", role: .cancel) { }
             }
         }
+        .navigationTitle("Symptoms")
+        .padding()
     }
 }
