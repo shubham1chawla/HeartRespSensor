@@ -11,7 +11,6 @@ import Photos
 struct CameraView: View {
     @Environment(\.dismiss) private var dismiss
     
-    @EnvironmentObject var dataService: DataService
     @EnvironmentObject var cameraService: CameraService
     @EnvironmentObject var measurementService: MeasurementService
     
@@ -88,7 +87,6 @@ struct CameraView: View {
             switch result {
             case .success(let heartRate):
                 self.heartRate = heartRate
-                dataService.saveHeartRateMeasurement(heartRate)
                 saveVideo(for: videoUrl)
             case .failure(let error):
                 print(error.localizedDescription)

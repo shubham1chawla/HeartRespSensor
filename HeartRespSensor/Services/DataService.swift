@@ -102,13 +102,14 @@ class DataService: ObservableObject {
         return heartRate > 0 || respRate > 0 || userSymptomsCount > 0
     }
     
-    func saveHeartRateMeasurement(_ heartRate: Double) -> Void {
+    func saveSensorRecord(heartRate : Double, respRate: Double) -> Void {
         let moc = container.viewContext
         
         // Fetching user session record
         let userSession = getCurrentUserSession()
         let sensorRecord = userSession.sensorRecord ?? SensorRecord(context: moc)
         sensorRecord.heartRate = heartRate
+        sensorRecord.respRate = respRate
         
         // Linking sensor record with user session
         sensorRecord.userSession = userSession

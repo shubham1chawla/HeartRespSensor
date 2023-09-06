@@ -8,9 +8,12 @@
 import SwiftUI
 
 struct DashboardView: View {
+    
+    @EnvironmentObject var dataService: DataService
+    
     @State private var heartRate: Double = 0
     @State private var respRate: Double = 0
-    @State private var isSymptomsSheetPresented: Bool = false
+    @State private var isUploadSignAlertPresented: Bool = false
     
     var body: some View {
         NavigationStack {
@@ -43,11 +46,15 @@ struct DashboardView: View {
                     .padding()
                 Spacer()
                 Button {
-                    print("Clicked Upload")
+                    dataService.saveSensorRecord(heartRate: heartRate, respRate: respRate)
+                    isUploadSignAlertPresented.toggle()
                 } label: {
                     Image(systemName: "square.and.arrow.up")
                     Text("Upload Signs")
                 }.buttonStyle(.borderedProminent)
+                    .alert("Your health signs has been updated.", isPresented: $isUploadSignAlertPresented) {
+                        Button("Dismiss", role: .cancel) { }
+                    }
             }
             .navigationTitle("Dashboard")
             .toolbar {
