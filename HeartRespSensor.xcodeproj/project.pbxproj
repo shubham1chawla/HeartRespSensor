@@ -15,6 +15,7 @@
 		5126DAF92AA17CFD0099E40D /* HeartRespSensor.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 5126DAF72AA17CFD0099E40D /* HeartRespSensor.xcdatamodeld */; };
 		5126DAFB2AA17D780099E40D /* DataService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5126DAFA2AA17D780099E40D /* DataService.swift */; };
 		5178694A2AA68FA800AB54FD /* HistoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 517869492AA68FA800AB54FD /* HistoryView.swift */; };
+		5178694C2AA7C42500AB54FD /* MeasurementService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5178694B2AA7C42500AB54FD /* MeasurementService.swift */; };
 		51FBFBC32AA2998A00C30FAD /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51FBFBC22AA2998A00C30FAD /* Constants.swift */; };
 		51FBFBC52AA4897A00C30FAD /* CameraService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51FBFBC42AA4897A00C30FAD /* CameraService.swift */; };
 		51FBFBC72AA48E4900C30FAD /* CameraPreviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51FBFBC62AA48E4900C30FAD /* CameraPreviewView.swift */; };
@@ -31,6 +32,7 @@
 		5126DAF82AA17CFD0099E40D /* HeartRespSensor.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = HeartRespSensor.xcdatamodel; sourceTree = "<group>"; };
 		5126DAFA2AA17D780099E40D /* DataService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataService.swift; sourceTree = "<group>"; };
 		517869492AA68FA800AB54FD /* HistoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryView.swift; sourceTree = "<group>"; };
+		5178694B2AA7C42500AB54FD /* MeasurementService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeasurementService.swift; sourceTree = "<group>"; };
 		51FBFBC22AA2998A00C30FAD /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		51FBFBC42AA4897A00C30FAD /* CameraService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraService.swift; sourceTree = "<group>"; };
 		51FBFBC62AA48E4900C30FAD /* CameraPreviewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraPreviewView.swift; sourceTree = "<group>"; };
@@ -91,6 +93,7 @@
 			children = (
 				5126DAFA2AA17D780099E40D /* DataService.swift */,
 				51FBFBC42AA4897A00C30FAD /* CameraService.swift */,
+				5178694B2AA7C42500AB54FD /* MeasurementService.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -179,6 +182,7 @@
 			files = (
 				5126DAFB2AA17D780099E40D /* DataService.swift in Sources */,
 				51FBFBC32AA2998A00C30FAD /* Constants.swift in Sources */,
+				5178694C2AA7C42500AB54FD /* MeasurementService.swift in Sources */,
 				5126DAF92AA17CFD0099E40D /* HeartRespSensor.xcdatamodeld in Sources */,
 				51FBFBC92AA4926800C30FAD /* CameraView.swift in Sources */,
 				5126DAF62AA1378C0099E40D /* SymptomsView.swift in Sources */,

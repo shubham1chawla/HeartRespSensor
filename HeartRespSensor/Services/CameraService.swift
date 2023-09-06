@@ -8,7 +8,7 @@
 import Foundation
 import AVFoundation
 
-class CameraService {
+class CameraService: ObservableObject {
     
     private var session: AVCaptureSession?
     private var delegate: AVCaptureFileOutputRecordingDelegate?
