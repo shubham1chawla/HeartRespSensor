@@ -9,6 +9,7 @@ import SwiftUI
 
 struct HistoryView: View {
     @FetchRequest(sortDescriptors: [NSSortDescriptor(key: "timestamp", ascending: false)]) var userSessions: FetchedResults<UserSession>
+    @EnvironmentObject var dataService: DataService
     
     struct HistoryProperty: Identifiable {
         let id: Int
@@ -20,7 +21,7 @@ struct HistoryView: View {
         ScrollView {
             VStack {
                 ForEach(userSessions, id: \.self) { userSession in
-                    if shouldDisplayUserSession(userSession) {
+                    if dataService.doesUserSessionContainsProperties(userSession) {
                         DisclosureGroup("\(userSession.timestamp!.formatted())") {
                             getDisclosureGroupContent(userSession)
                         }
@@ -44,26 +45,18 @@ struct HistoryView: View {
             }
         }
     }
-
-    private func shouldDisplayUserSession(_ userSession: UserSession) -> Bool {
-        var heartRate: Double = 0, respRate: Double = 0, userSymptomsCount: Int = 0
-        if let sensorRecord = userSession.sensorRecord {
-            heartRate = sensorRecord.heartRate
-            respRate = sensorRecord.respRate
-        }
-        if let userSymptoms = userSession.userSymptoms {
-            userSymptomsCount = userSymptoms.count
-        }
-        return heartRate > 0 || respRate > 0 || userSymptomsCount > 0
-    }
     
     private func getHistoryProperties(_ userSession: UserSession) -> [HistoryProperty] {
         var props: [HistoryProperty] = []
         
         // Flattening the sensor record
         if let sensorRecord = userSession.sensorRecord {
-            props.append(HistoryProperty(id: 1, name: "Heart Rate", value: String(format: "%.2f", sensorRecord.heartRate)))
-            props.append(HistoryProperty(id: 2, name: "Respiratory Rate", value: String(format: "%.2f", sensorRecord.respRate)))
+            if sensorRecord.heartRate > 0 {
+                props.append(HistoryProperty(id: 1, name: "Heart Rate", value: String(format: "%.2f", sensorRecord.heartRate)))
+            }
+            if sensorRecord.respRate > 0 {
+                props.append(HistoryProperty(id: 2, name: "Respiratory Rate", value: String(format: "%.2f", sensorRecord.respRate)))
+            }
         }
         
         // Flattening the user symptoms

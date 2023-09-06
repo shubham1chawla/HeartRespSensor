@@ -19,7 +19,7 @@ struct DashboardView: View {
                 VStack {
                     VStack {
                         NavigationLink {
-                            CameraView()
+                            CameraView(heartRate: $heartRate)
                         } label: {
                             Image(systemName: "heart")
                             Text("\(heartRate, specifier: "%.2f")")

@@ -69,6 +69,10 @@ class CameraService: ObservableObject {
     
     private func setupCaptureSession(completion: @escaping (Error?) -> ()) -> Void {
         let session = AVCaptureSession()
+        
+        // Hardcoding reduced video quality preset
+        session.sessionPreset = AVCaptureSession.Preset.vga640x480
+        
         if let device = AVCaptureDevice.default(for: .video) {
             do {
                 let input = try AVCaptureDeviceInput(device: device)

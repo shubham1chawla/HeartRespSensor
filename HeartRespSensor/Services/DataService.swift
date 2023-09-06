@@ -90,4 +90,31 @@ class DataService: ObservableObject {
         try? moc.save()
     }
     
+    func doesUserSessionContainsProperties(_ userSession: UserSession) -> Bool {
+        var heartRate: Double = 0, respRate: Double = 0, userSymptomsCount: Int = 0
+        if let sensorRecord = userSession.sensorRecord {
+            heartRate = sensorRecord.heartRate
+            respRate = sensorRecord.respRate
+        }
+        if let userSymptoms = userSession.userSymptoms {
+            userSymptomsCount = userSymptoms.count
+        }
+        return heartRate > 0 || respRate > 0 || userSymptomsCount > 0
+    }
+    
+    func saveHeartRateMeasurement(_ heartRate: Double) -> Void {
+        let moc = container.viewContext
+        
+        // Fetching user session record
+        let userSession = getCurrentUserSession()
+        let sensorRecord = userSession.sensorRecord ?? SensorRecord(context: moc)
+        sensorRecord.heartRate = heartRate
+        
+        // Linking sensor record with user session
+        sensorRecord.userSession = userSession
+        
+        // Saving the record
+        try? moc.save()
+    }
+    
 }

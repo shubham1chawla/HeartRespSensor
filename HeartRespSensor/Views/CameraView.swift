@@ -11,13 +11,16 @@ import Photos
 struct CameraView: View {
     @Environment(\.dismiss) private var dismiss
     
+    @EnvironmentObject var dataService: DataService
     @EnvironmentObject var cameraService: CameraService
     @EnvironmentObject var measurementService: MeasurementService
+    
     private let defaults = UserDefaults.standard
     
     @State private var isRecording = false
     @State private var hasProcessingCompleted = false
     @State private var isProcessing = false
+    @Binding var heartRate: Double
     
     var body: some View {
         GeometryReader { geometry in
@@ -56,7 +59,7 @@ struct CameraView: View {
                         }
                     }
                     .padding(.bottom)
-                    .alert("Your heart rate measurement has been calculated!", isPresented: $hasProcessingCompleted) {
+                    .alert("Your heart rate measurement has been calculated.", isPresented: $hasProcessingCompleted) {
                         Button("Dismiss", role: .cancel) {
                             dismiss()
                         }
@@ -84,7 +87,8 @@ struct CameraView: View {
             isProcessing.toggle()
             switch result {
             case .success(let heartRate):
-                print("Heart Rate: \(heartRate)")
+                self.heartRate = heartRate
+                dataService.saveHeartRateMeasurement(heartRate)
                 saveVideo(for: videoUrl)
             case .failure(let error):
                 print(error.localizedDescription)
