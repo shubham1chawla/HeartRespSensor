@@ -9,7 +9,6 @@ import SwiftUI
 
 struct HistoryView: View {
     @FetchRequest(sortDescriptors: [NSSortDescriptor(key: "timestamp", ascending: false)]) var userSessions: FetchedResults<UserSession>
-    @EnvironmentObject var dataService: DataService
     
     struct HistoryProperty: Identifiable {
         let id: Int
@@ -21,10 +20,8 @@ struct HistoryView: View {
         ScrollView {
             VStack {
                 ForEach(userSessions, id: \.self) { userSession in
-                    if dataService.doesUserSessionContainsProperties(userSession) {
-                        DisclosureGroup("\(userSession.timestamp!.formatted())") {
-                            getDisclosureGroupContent(userSession)
-                        }
+                    DisclosureGroup("\(userSession.timestamp!.formatted())") {
+                        getDisclosureGroupContent(userSession)
                     }
                 }
             }
@@ -48,14 +45,17 @@ struct HistoryView: View {
     
     private func getHistoryProperties(_ userSession: UserSession) -> [HistoryProperty] {
         var props: [HistoryProperty] = []
+        var propId = 0
         
         // Flattening the sensor record
         if let sensorRecord = userSession.sensorRecord {
             if sensorRecord.heartRate > 0 {
-                props.append(HistoryProperty(id: 1, name: "Heart Rate", value: String(format: "%.2f", sensorRecord.heartRate)))
+                props.append(HistoryProperty(id: propId, name: "Heart Rate", value: String(format: "%.2f", sensorRecord.heartRate)))
+                propId += 1
             }
             if sensorRecord.respRate > 0 {
-                props.append(HistoryProperty(id: 2, name: "Respiratory Rate", value: String(format: "%.2f", sensorRecord.respRate)))
+                props.append(HistoryProperty(id: propId, name: "Respiratory Rate", value: String(format: "%.2f", sensorRecord.respRate)))
+                propId += 1
             }
         }
         
@@ -63,7 +63,8 @@ struct HistoryView: View {
         if let userSymptoms = userSession.userSymptoms {
             for element in userSymptoms {
                 let userSymptom = element as! UserSymptom
-                props.append(HistoryProperty(id: Int(userSymptom.symptom!.id), name: userSymptom.symptom!.name!, value: String(userSymptom.intensity)))
+                props.append(HistoryProperty(id: propId, name: userSymptom.symptom!.name!, value: String(userSymptom.intensity)))
+                propId += 1
             }
         }
         

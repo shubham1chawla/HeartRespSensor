@@ -31,7 +31,7 @@ class DataService: ObservableObject {
         }
         
         // Setting up user session
-        setUserSession()
+        setUserSessionId()
     }
     
     private func isSymptomsPreloaded() -> Bool {
@@ -48,13 +48,8 @@ class DataService: ObservableObject {
         }
     }
     
-    private func setUserSession() -> Void {
-        let moc = container.viewContext
-        let userSession = UserSession(context: moc)
-        userSession.uuid = UUID().uuidString
-        userSession.timestamp = Date()
-        try? moc.save()
-        defaults.set(userSession.uuid, forKey: Keys.LAST_USER_SESSION)
+    private func setUserSessionId() -> Void {
+        defaults.set(UUID().uuidString, forKey: Keys.LAST_USER_SESSION)
     }
     
     private func getSqlitePath() -> String? {
@@ -74,7 +69,14 @@ class DataService: ObservableObject {
         
         // Fetching the user session
         let moc = container.viewContext
-        return try! moc.fetch(request).first!
+        let userSessions = try! moc.fetch(request)
+        if userSessions.isEmpty {
+            let userSession = UserSession(context: moc)
+            userSession.timestamp = Date()
+            userSession.uuid = sessionId
+            return userSession
+        }
+        return userSessions.first!
     }
     
     func saveUserSymptom(symptom: Symptom, intensity: Int) -> Void {
