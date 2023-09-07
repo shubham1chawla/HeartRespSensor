@@ -33,33 +33,37 @@ class MeasurementService: ObservableObject {
                 }
                 
                 // Calculating pixel data from the images
-                var pixelCount: Int64 = 0, redBucket: Int64 = 0, redBuckets: [Int64] = []
+                var colorIntensity: Int64 = 0, colorIntensities: [Int64] = []
                 for image in images {
                     let data = image.dataProvider?.data
                     let ptr: UnsafePointer<UInt8> = CFDataGetBytePtr(data)
                     let length: CFIndex = CFDataGetLength(data)
                     for i in stride(from: 0, to: length-1, by: 4) {
-                        pixelCount += 1
-                        redBucket += Int64(ptr[i]) + Int64(ptr[i+1]) + Int64(ptr[i+2])
+                        // red = ptr[i]; green = ptr[i+1]; blue = ptr[i+2]
+                        let r = Int64(ptr[i])
+                        let g = Int64(ptr[i+1])
+                        let b = Int64(ptr[i+2])
+                        colorIntensity += r + g + b
                     }
-                    redBuckets.append(redBucket)
+                    colorIntensities.append(colorIntensity)
+                    colorIntensity = 0
                 }
                 
                 // Averaging the red buckets
                 var averages: [Int64] = []
-                for i in 0...redBuckets.count-5 {
+                for i in 0...colorIntensities.count-5 {
                     var average: Int64 = 0
                     for j in 0...4 {
-                        average += redBuckets[i + j]
+                        average += colorIntensities[i + j]
                     }
-                    average /= 4
+                    average /= 5
                     averages.append(average)
                 }
                 
                 // Calculating heart rate from the averaged red buckets
                 var count: Int64 = 0, prev = averages[0]
                 for i in 1...averages.count-1 {
-                    if (averages[i] - prev) > MeasurementConstants.AVERAGE_DIFFERENCE_THRESHOLD {
+                    if abs(averages[i] - prev) > MeasurementConstants.AVERAGE_DIFFERENCE_THRESHOLD {
                         count += 1
                     }
                     prev = averages[i]
@@ -92,7 +96,7 @@ class MeasurementService: ObservableObject {
             guard duration < Double(MeasurementConstants.MAX_TIME_DURATION) else {
                 
                 // Calcuating final measurement after timer is finshed
-                let respRate = (Double(rawRespCount) / duration) * 30
+                let respRate = (Double(rawRespCount) / duration) * 60
                 completion(.success(respRate))
                 
                 // Stopping the timer

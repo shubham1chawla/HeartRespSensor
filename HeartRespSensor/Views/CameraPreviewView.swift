@@ -11,7 +11,7 @@ import AVFoundation
 struct CameraPreviewView: UIViewControllerRepresentable {
     typealias UIViewControllerType = UIViewController
     
-    let cameraService: CameraService
+    @EnvironmentObject var cameraService: CameraService
     let didFinishRecordingTo: (Result<URL, Error>) -> ()
     
     func makeUIViewController(context: Context) -> UIViewController {

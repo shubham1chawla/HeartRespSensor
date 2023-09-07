@@ -32,11 +32,11 @@ class CameraService: ObservableObject {
         }
     }
     
-    func startRecording(sessionId: String) -> Void {
+    func startRecording(filename: String) -> Void {
         if output.isRecording {
             return
         }
-        let filePath = NSTemporaryDirectory() + "\(sessionId).mov"
+        let filePath = NSTemporaryDirectory() + "\(filename).mov"
         output.startRecording(to: URL(filePath: filePath), recordingDelegate: delegate!)
     }
     
