@@ -8,8 +8,11 @@
 import Foundation
 import AVFoundation
 import AssetsLibrary
+import CoreMotion
 
 class MeasurementService: ObservableObject {
+    
+    private var motionManager = CMMotionManager()
     
     func calculateHeartRate(for videoUrl: URL, completion: @escaping (Result<Double, Error>) -> ()) -> Void {
         let videoAsset = AVAsset(url: videoUrl)
@@ -24,7 +27,7 @@ class MeasurementService: ObservableObject {
                 // Generating image frames for the request times
                 let generator = AVAssetImageGenerator(asset: videoAsset)
                 var images: [CGImage] = []
-                for i in stride(from: 10, to: Int(frames), by: 5) {
+                for i in stride(from: MeasurementConstants.STARTING_FRAME_COUNT, to: Int(frames), by: MeasurementConstants.FRAME_INTERVAL) {
                     let result = try await generator.image(at: CMTime(value: Int64(i), timescale: Int32(fps)))
                     images.append(result.image)
                 }
@@ -56,12 +59,12 @@ class MeasurementService: ObservableObject {
                 // Calculating heart rate from the averaged red buckets
                 var count: Int64 = 0, prev = averages[0]
                 for i in 1...averages.count-1 {
-                    if (averages[i] - prev) > 3500 {
+                    if (averages[i] - prev) > MeasurementConstants.AVERAGE_DIFFERENCE_THRESHOLD {
                         count += 1
                     }
                     prev = averages[i]
                 }
-                let heartRate = (Double(count) / 45) * 30
+                let heartRate = (Double(count) / duration.seconds) * 30
                 completion(.success(heartRate))
                 
             } catch {
@@ -69,6 +72,45 @@ class MeasurementService: ObservableObject {
                 completion(.failure(error))
             }
         }
+    }
+    
+    func calculateRespRate(completion: @escaping (Result<Double, Error>) -> ()) -> Void {
+        
+        // Setting up accelerometer for capturing motion
+        motionManager.startAccelerometerUpdates()
+        motionManager.accelerometerUpdateInterval = MeasurementConstants.ACCELEROMETER_INTERVAL
+        
+        // Setting up variable to measure respiratory rate
+        var previousValue: Double = 0
+        var intervalCount: Int = 0
+        var rawRespCount: Int = 0
+        
+        // Setting up timer to measure respiratory rate
+        Timer.scheduledTimer(withTimeInterval: MeasurementConstants.ACCELEROMETER_INTERVAL, repeats: true) { timer in
+            // Checking if duration is within the acceptable time interval
+            let duration = MeasurementConstants.ACCELEROMETER_INTERVAL * Double(intervalCount)
+            guard duration < Double(MeasurementConstants.MAX_TIME_DURATION) else {
+                
+                // Calcuating final measurement after timer is finshed
+                let respRate = (Double(rawRespCount) / duration) * 30
+                completion(.success(respRate))
+                
+                // Stopping the timer
+                timer.invalidate()
+                return
+            }
+            
+            // Fetching accelerometer data
+            if let data = self.motionManager.accelerometerData {
+                let value = sqrt(pow(data.acceleration.x, 2) + pow(data.acceleration.y, 2) + pow(data.acceleration.z, 2))
+                if abs(value - previousValue) > MeasurementConstants.ACCELEROMETER_DIFFERENCE_THRESHOLD {
+                    rawRespCount += 1
+                }
+                previousValue = value
+            }
+            intervalCount += 1
+        }
+        
     }
 
 }

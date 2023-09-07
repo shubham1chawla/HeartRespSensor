@@ -24,3 +24,19 @@ public let defaultSymptoms = [
     9: "Shortness of Breath",
     10: "Feeling Tired"
 ]
+
+public struct MeasurementConstants {
+    
+    // Common constants
+    static let MAX_TIME_DURATION = 45
+    
+    // Heart rate measurement related constants
+    static let STARTING_FRAME_COUNT = 10
+    static let FRAME_INTERVAL = 5
+    static let AVERAGE_DIFFERENCE_THRESHOLD = 3500
+    
+    // Resp rate measurement related constants
+    static let ACCELEROMETER_INTERVAL = 0.035
+    static let ACCELEROMETER_DIFFERENCE_THRESHOLD = 0.15
+    
+}

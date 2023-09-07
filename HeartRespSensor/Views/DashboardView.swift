@@ -10,10 +10,12 @@ import SwiftUI
 struct DashboardView: View {
     
     @EnvironmentObject var dataService: DataService
+    @EnvironmentObject var measurementService: MeasurementService
     
     @State private var heartRate: Double = 0
     @State private var respRate: Double = 0
     @State private var isUploadSignAlertPresented: Bool = false
+    @State private var isMeasuringRespRate: Bool = false
     
     var body: some View {
         NavigationStack {
@@ -34,13 +36,30 @@ struct DashboardView: View {
                         .padding()
                     VStack {
                         Button {
-                            print("Clicked RR")
+                            isMeasuringRespRate.toggle()
+                            measurementService.calculateRespRate { result in
+                                switch result {
+                                case .success(let respRate):
+                                    self.respRate = respRate
+                                    isMeasuringRespRate.toggle()
+                                case .failure(let error):
+                                    print(error.localizedDescription)
+                                }
+                            }
                         } label: {
-                            Image(systemName: "lungs")
-                            Text("\(respRate, specifier: "%.2f")")
+                            if isMeasuringRespRate {
+                                ProgressView()
+                                    .controlSize(.large)
+                                Text(" Measuring")
+                            }
+                            else {
+                                Image(systemName: "lungs")
+                                Text("\(respRate, specifier: "%.2f")")
+                            }
                         }
                         .font(.largeTitle)
                         .padding()
+                        .disabled(isMeasuringRespRate)
                     }
                 }
                     .padding()
