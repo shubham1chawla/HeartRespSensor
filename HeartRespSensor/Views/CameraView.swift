@@ -19,6 +19,7 @@ struct CameraView: View {
     @State private var isRecording = false
     @State private var isProcessing = false
     @State private var secondsElapsed = 0
+    @State private var showHeartRateTip = false
     @Binding var heartRate: Double
     
     var body: some View {
@@ -51,19 +52,7 @@ struct CameraView: View {
                     VStack {
                         Spacer()
                         Button {
-                            cameraService.startRecording(filename: defaults.string(forKey: Keys.LAST_USER_SESSION)!)
-                            isRecording.toggle()
-                            Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { timer in
-                                // Stopping video recording after max time duration
-                                guard secondsElapsed + 1 < MeasurementConstants.MAX_TIME_DURATION else {
-                                    cameraService.stopRecording()
-                                    isRecording.toggle()
-                                    secondsElapsed = 0
-                                    timer.invalidate()
-                                    return
-                                }
-                                secondsElapsed += 1
-                            }
+                            showHeartRateTip.toggle()
                         } label: {
                             Image(systemName: "record.circle")
                                 .foregroundColor(.white)
@@ -71,6 +60,14 @@ struct CameraView: View {
                                 .font(.system(size: 72))
                         }
                         .padding(.bottom)
+                        .alert("Heart Rate Measurement Instructions", isPresented: $showHeartRateTip) {
+                            Button("Cancel", role: .cancel) { }
+                            Button("Start Measuring", role: .none) {
+                                handlePreVideoRecording()
+                            }
+                        } message: {
+                            Text("Please ensure that you are in a well-lit area. Cover the back camera lens gently with your index finger. Point the camera lens towards a light source.")
+                        }
                     }
                 }
             }
@@ -78,7 +75,23 @@ struct CameraView: View {
         .navigationTitle("Heart Rate")
     }
     
-    private func handlePostVideoRecording(for videoUrl: URL) {
+    private func handlePreVideoRecording() -> Void {
+        cameraService.startRecording(filename: defaults.string(forKey: Keys.LAST_USER_SESSION)!)
+        isRecording.toggle()
+        Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { timer in
+            // Stopping video recording after max time duration
+            guard secondsElapsed + 1 < MeasurementConstants.MAX_TIME_DURATION else {
+                cameraService.stopRecording()
+                isRecording.toggle()
+                secondsElapsed = 0
+                timer.invalidate()
+                return
+            }
+            secondsElapsed += 1
+        }
+    }
+    
+    private func handlePostVideoRecording(for videoUrl: URL) -> Void {
         isProcessing.toggle()
         measurementService.calculateHeartRate(for: videoUrl) { result in
             isProcessing.toggle()

@@ -14,8 +14,9 @@ struct DashboardView: View {
     
     @State private var heartRate: Double = 0
     @State private var respRate: Double = 0
-    @State private var isUploadSignAlertPresented: Bool = false
-    @State private var isMeasuringRespRate: Bool = false
+    @State private var isUploadSignAlertPresented = false
+    @State private var isMeasuringRespRate = false
+    @State private var showRespRateTip = false
     
     var body: some View {
         NavigationStack {
@@ -36,16 +37,7 @@ struct DashboardView: View {
                         .padding()
                     VStack {
                         Button {
-                            isMeasuringRespRate.toggle()
-                            measurementService.calculateRespRate { result in
-                                switch result {
-                                case .success(let respRate):
-                                    self.respRate = respRate
-                                    isMeasuringRespRate.toggle()
-                                case .failure(let error):
-                                    print(error.localizedDescription)
-                                }
-                            }
+                            showRespRateTip.toggle()
                         } label: {
                             if isMeasuringRespRate {
                                 ProgressView()
@@ -60,6 +52,15 @@ struct DashboardView: View {
                         .font(.largeTitle)
                         .padding()
                         .disabled(isMeasuringRespRate)
+                        .alert("Respiratory Rate Measurement Instructions", isPresented: $showRespRateTip) {
+                            Button("Cancel", role: .cancel) { }
+                            Button("Start Measuring", role: .none) {
+                                handleRespRateMeasurement()
+                            }
+                        } message: {
+                            Text("Please lay down facing up. Place the device flat between your chest and stomach. Press the \"Start Measuring\" button and continue to take deep breaths.")
+                        }
+
                     }
                 }
                     .padding()
@@ -93,6 +94,20 @@ struct DashboardView: View {
             .padding()
         }
     }
+    
+    private func handleRespRateMeasurement() -> Void {
+        isMeasuringRespRate.toggle()
+        measurementService.calculateRespRate { result in
+            switch result {
+            case .success(let respRate):
+                self.respRate = respRate
+            case .failure(let error):
+                print(error.localizedDescription)
+            }
+            isMeasuringRespRate.toggle()
+        }
+    }
+    
 }
 
 struct DashboardView_Previews: PreviewProvider {
