@@ -48,31 +48,22 @@ struct CameraView: View {
                     .foregroundColor(Color(UIColor.label))
                     .cornerRadius(20)
                 }
-                else {
-                    VStack {
-                        Spacer()
-                        Button {
-                            showHeartRateTip.toggle()
-                        } label: {
-                            Image(systemName: "record.circle")
-                                .foregroundColor(.white)
-                                .padding()
-                                .font(.system(size: 72))
-                        }
-                        .padding(.bottom)
-                        .alert("Heart Rate Measurement Instructions", isPresented: $showHeartRateTip) {
-                            Button("Cancel", role: .cancel) { }
-                            Button("Start Measuring", role: .none) {
-                                handlePreVideoRecording()
-                            }
-                        } message: {
-                            Text("Please ensure that you are in a well-lit area. Cover the back camera lens gently with your index finger. Point the camera lens towards a light source.")
-                        }
-                    }
+            }
+            .alert("Heart Rate Measurement Instructions", isPresented: $showHeartRateTip) {
+                Button("Cancel", role: .cancel) {
+                    dismiss()
                 }
+                Button("Start Measuring", role: .none) {
+                    handlePreVideoRecording()
+                }
+            } message: {
+                Text("Please ensure that you are in a well-lit area. Cover the back camera lens gently with your index finger. Point the camera lens towards a light source.")
             }
         }
         .navigationTitle("Heart Rate")
+        .onAppear {
+            showHeartRateTip.toggle()
+        }
     }
     
     private func handlePreVideoRecording() -> Void {
