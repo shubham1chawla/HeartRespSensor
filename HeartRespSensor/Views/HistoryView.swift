@@ -25,14 +25,3 @@ struct HistoryView: View {
     }
     
 }
-
-extension Date {
-    
-    // Formats time nicely for the UI
-    func asTimeAgoFormatted() -> String {
-        let formatter = RelativeDateTimeFormatter()
-        formatter.unitsStyle = .full
-        return formatter.localizedString(for: self, relativeTo: Date())
-    }
-    
-}

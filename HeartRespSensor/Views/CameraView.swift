@@ -13,6 +13,7 @@ struct CameraView: View {
     
     @EnvironmentObject var cameraService: CameraService
     @EnvironmentObject var measurementService: MeasurementService
+    @EnvironmentObject var photoLibraryService: PhotoLibraryService
     
     private let defaults = UserDefaults.standard
     
@@ -95,7 +96,7 @@ struct CameraView: View {
             switch result {
             case .success(let heartRate):
                 self.heartRate = heartRate
-                saveVideo(for: videoUrl)
+                photoLibraryService.saveVideo(for: videoUrl)
             case .failure(let error):
                 print(error.localizedDescription)
             }
@@ -104,22 +105,6 @@ struct CameraView: View {
             DispatchQueue.main.async {
                 dismiss()
             }
-        }
-    }
-    
-    private func saveVideo(for videoUrl: URL) -> Void {
-        PHPhotoLibrary.shared().performChanges({
-            PHAssetChangeRequest.creationRequestForAssetFromVideo(atFileURL: videoUrl)
-        }) { saved, error in
-            if let error = error {
-                print(error.localizedDescription)
-            }
-            else if !saved {
-                print("Error: Unable to save the video!")
-            }
-            
-            // Deleting the temporary video file
-            try? FileManager.default.removeItem(at: videoUrl)
         }
     }
     

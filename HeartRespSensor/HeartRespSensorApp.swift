@@ -18,6 +18,7 @@ struct HeartRespSensorApp: App {
                 .environmentObject(dataService)
                 .environmentObject(CameraService())
                 .environmentObject(MeasurementService())
+                .environmentObject(PhotoLibraryService())
         }
     }
 }
