@@ -25,6 +25,14 @@ public let defaultSymptoms = [
     10: "Feeling Tired"
 ]
 
+public let intensities = [
+    1: "Minimal",
+    2: "Mild",
+    3: "Moderate",
+    4: "Severe",
+    5: "Extreme"
+]
+
 public struct MeasurementConstants {
     
     // Common constants

@@ -21,20 +21,27 @@ struct SymptomsView: View {
     var body: some View {
         VStack {
             Spacer()
-            Picker(selection: $symptomIndex, label: Text("Symptom")) {
+            Picker(selection: $symptomIndex) {
                 ForEach(Array(symptoms.enumerated()), id: \.element) { index, symptom in
                     Text(symptom.name!).tag(index)
                 }
+            } label: {
+                Image(systemName: "staroflife")
+                Text("What's your symptom?")
             }
-            .pickerStyle(.wheel)
-            .padding()
-            Picker(selection: $intensity, label: Text("Intensity")) {
-                ForEach(1...5, id: \.self) {
-                    Text("\($0)").tag($0)
+            .pickerStyle(.navigationLink)
+            .padding(.vertical)
+            Divider()
+            Picker(selection: $intensity) {
+                ForEach(Array(intensities.keys), id: \.self) { key in
+                    Text("\(key) - \(intensities[key]!)").tag(key)
                 }
+            } label: {
+                Image(systemName: "exclamationmark.circle")
+                Text("How severe is the symptom?")
             }
-            .pickerStyle(.segmented)
-            .padding()
+            .pickerStyle(.navigationLink)
+            .padding(.vertical)
             Spacer()
             Button {
                 dataService.saveUserSymptom(symptom: symptoms[symptomIndex], intensity: intensity)

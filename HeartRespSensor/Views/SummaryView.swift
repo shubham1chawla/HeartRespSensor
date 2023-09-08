@@ -45,7 +45,7 @@ struct SummaryView: View {
                             Image(systemName: "staroflife")
                             Text(userSymptom.symptom!.name!)
                             Spacer()
-                            Text("\(userSymptom.intensity)")
+                            Text("\(intensities[Int(userSymptom.intensity)]!) (\(userSymptom.intensity))")
                         }
                         .padding()
                         Divider()
