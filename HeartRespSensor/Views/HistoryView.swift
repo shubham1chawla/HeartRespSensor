@@ -10,65 +10,51 @@ import SwiftUI
 struct HistoryView: View {
     @FetchRequest(sortDescriptors: [NSSortDescriptor(key: "timestamp", ascending: false)]) var userSessions: FetchedResults<UserSession>
     
-    struct HistoryProperty: Identifiable {
-        let id: Int
+    struct History: Identifiable {
+        let id = UUID()
         var name: String
-        var value: String
+        var icon: String
+        var value: String?
+        var items: [History]?
     }
     
     var body: some View {
-        ScrollView {
-            VStack {
-                ForEach(userSessions, id: \.self) { userSession in
-                    DisclosureGroup("\(userSession.timestamp!.formatted())") {
-                        getDisclosureGroupContent(userSession)
-                    }
+        List(userSessions.map(getHistory), id: \.id, children: \.items) { row in
+            HStack {
+                Image(systemName: row.icon)
+                Text(row.name)
+                if row.value != nil {
+                    Spacer()
+                    Text(row.value!)
                 }
             }
         }
         .navigationTitle("History")
-        .padding()
     }
     
-    private func getDisclosureGroupContent(_ userSession: UserSession) -> some View {
-        return VStack {
-            ForEach(getHistoryProperties(userSession), id: \.id) { property in
-                HStack {
-                    Text(property.name)
-                        .fontWeight(.semibold)
-                    Spacer()
-                    Text(property.value)
-                }
-            }
-        }
-    }
-    
-    private func getHistoryProperties(_ userSession: UserSession) -> [HistoryProperty] {
-        var props: [HistoryProperty] = []
-        var propId = 0
+    private func getHistory(for userSession: UserSession) -> History {
+        // Creating base history record from user session
+        let timestamp = userSession.timestamp!
+        var history = History(name: timestamp.formatted(), icon: "clock.arrow.circlepath")
         
         // Flattening the sensor record
+        var items: [History] = []
         if let sensorRecord = userSession.sensorRecord {
-            if sensorRecord.heartRate > 0 {
-                props.append(HistoryProperty(id: propId, name: "Heart Rate", value: String(format: "%.2f", sensorRecord.heartRate)))
-                propId += 1
-            }
-            if sensorRecord.respRate > 0 {
-                props.append(HistoryProperty(id: propId, name: "Respiratory Rate", value: String(format: "%.2f", sensorRecord.respRate)))
-                propId += 1
-            }
+            items.append(History(name: "Heart Rate", icon: "heart", value: String(format: "%.2f", sensorRecord.heartRate)))
+            items.append(History(name: "Respiratory Rate", icon: "lungs", value: String(format: "%.2f", sensorRecord.respRate)))
         }
         
         // Flattening the user symptoms
         if let userSymptoms = userSession.userSymptoms {
             for element in userSymptoms {
                 let userSymptom = element as! UserSymptom
-                props.append(HistoryProperty(id: propId, name: userSymptom.symptom!.name!, value: String(userSymptom.intensity)))
-                propId += 1
+                items.append(History(name: userSymptom.symptom!.name!, icon: "heart.text.square", value: String(userSymptom.intensity)))
             }
         }
         
-        return props
+        // Adding items to the history
+        history.items = items
+        return history
     }
     
 }

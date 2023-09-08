@@ -60,7 +60,7 @@ class DataService: ObservableObject {
             .removingPercentEncoding
     }
     
-    func getCurrentUserSession() -> UserSession {
+    private func getCurrentUserSession() -> UserSession {
         let sessionId = defaults.string(forKey: Keys.LAST_USER_SESSION)!
         
         // Creating the request
@@ -71,6 +71,7 @@ class DataService: ObservableObject {
         let moc = container.viewContext
         let userSessions = try! moc.fetch(request)
         if userSessions.isEmpty {
+            // Creating a new user session instance
             let userSession = UserSession(context: moc)
             userSession.timestamp = Date()
             userSession.uuid = sessionId
@@ -90,18 +91,6 @@ class DataService: ObservableObject {
         
         // Saving the record
         try? moc.save()
-    }
-    
-    func doesUserSessionContainsProperties(_ userSession: UserSession) -> Bool {
-        var heartRate: Double = 0, respRate: Double = 0, userSymptomsCount: Int = 0
-        if let sensorRecord = userSession.sensorRecord {
-            heartRate = sensorRecord.heartRate
-            respRate = sensorRecord.respRate
-        }
-        if let userSymptoms = userSession.userSymptoms {
-            userSymptomsCount = userSymptoms.count
-        }
-        return heartRate > 0 || respRate > 0 || userSymptomsCount > 0
     }
     
     func saveSensorRecord(heartRate : Double, respRate: Double) -> Void {

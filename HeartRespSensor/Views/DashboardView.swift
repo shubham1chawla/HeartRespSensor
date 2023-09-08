@@ -90,7 +90,7 @@ struct DashboardView: View {
                     NavigationLink {
                         HistoryView()
                     } label: {
-                        Image(systemName: "memories")
+                        Image(systemName: "clock.arrow.circlepath")
                     }
                     NavigationLink {
                         SymptomsView()
