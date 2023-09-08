@@ -22,56 +22,52 @@ struct DashboardView: View {
         NavigationStack {
             VStack {
                 Spacer()
-                GeometryReader { geometry in
-                    ZStack {
-                        RoundedRectangle(cornerRadius: 20, style: .continuous)
-                            .fill(Color(UIColor.systemBackground))
-                            .shadow(color: Color.primary, radius: 1)
-                            .frame(width: geometry.size.width, height: geometry.size.width)
-                        VStack {
-                            VStack {
-                                NavigationLink {
-                                    CameraView(heartRate: $heartRate)
-                                } label: {
-                                    Image(systemName: "heart")
-                                    Text("\(heartRate, specifier: "%.2f")")
-                                }
-                                .font(.largeTitle)
-                                .padding()
-                                Text("Measured Heart Rate")
+                VStack {
+                    VStack {
+                        NavigationLink {
+                            CameraView(heartRate: $heartRate)
+                        } label: {
+                            Image(systemName: "heart")
+                            Text("\(heartRate, specifier: "%.2f")")
+                        }
+                        .font(.largeTitle)
+                        .padding()
+                        Text("Measured Heart Rate")
+                    }
+                    .padding()
+                    Divider()
+                    VStack {
+                        Button {
+                            showRespRateTip.toggle()
+                        } label: {
+                            if isMeasuringRespRate {
+                                ProgressView()
+                                    .controlSize(.large)
+                                Text(" Measuring")
                             }
-                            Divider()
-                                .padding()
-                            VStack {
-                                Button {
-                                    showRespRateTip.toggle()
-                                } label: {
-                                    if isMeasuringRespRate {
-                                        ProgressView()
-                                            .controlSize(.large)
-                                        Text(" Measuring")
-                                    }
-                                    else {
-                                        Image(systemName: "lungs")
-                                        Text("\(respRate, specifier: "%.2f")")
-                                    }
-                                }
-                                .font(.largeTitle)
-                                .padding()
-                                .disabled(isMeasuringRespRate)
-                                .alert("Respiratory Rate Measurement Instructions", isPresented: $showRespRateTip) {
-                                    Button("Cancel", role: .cancel) { }
-                                    Button("Start Measuring", role: .none) {
-                                        handleRespRateMeasurement()
-                                    }
-                                } message: {
-                                    Text("Please lay down facing up. Place the device flat between your chest and stomach. Press the \"Start Measuring\" button and continue to take deep breaths.")
-                                }
-                                Text("Measured Respiratory Rate")
+                            else {
+                                Image(systemName: "lungs")
+                                Text("\(respRate, specifier: "%.2f")")
                             }
                         }
+                        .font(.largeTitle)
+                        .padding()
+                        .disabled(isMeasuringRespRate)
+                        .alert("Respiratory Rate Measurement Instructions", isPresented: $showRespRateTip) {
+                            Button("Cancel", role: .cancel) { }
+                            Button("Start Measuring", role: .none) {
+                                handleRespRateMeasurement()
+                            }
+                        } message: {
+                            Text("Please lay down facing up. Place the device flat between your chest and stomach. Press the \"Start Measuring\" button and continue to take deep breaths.")
+                        }
+                        Text("Measured Respiratory Rate")
                     }
-                    .position(x: geometry.frame(in: .local).midX, y: geometry.frame(in: .local).midY)
+                    .padding()
+                }
+                .overlay {
+                    RoundedRectangle(cornerRadius: 20)
+                        .stroke(Color.secondary, lineWidth: 1)
                 }
                 Spacer()
                 Button {
@@ -95,7 +91,7 @@ struct DashboardView: View {
                     NavigationLink {
                         SymptomsView()
                     } label: {
-                        Image(systemName: "plus.app")
+                        Image(systemName: "plus.circle")
                     }
                 }
             }
