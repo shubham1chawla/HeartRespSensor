@@ -35,8 +35,8 @@ struct CameraView: View {
                 }
                 if isProcessing || isRecording {
                     let dialogText = isProcessing
-                        ? "Calculating your heart rate. Please be patient."
-                        : "Video recording in progress. \(MeasurementConstants.MAX_TIME_DURATION - secondsElapsed) seconds remaining."
+                        ? "Please be patient while we are calculating your heart rate."
+                        : "Please wait for \(MeasurementConstants.MAX_TIME_DURATION - secondsElapsed) seconds while we record your video."
                     ProgressView {
                         Text(dialogText)
                             .multilineTextAlignment(.center)
@@ -44,9 +44,15 @@ struct CameraView: View {
                     }
                     .controlSize(.large)
                     .frame(width: geometry.size.width / 1.5, height: geometry.size.height / 4)
-                    .background(Color(UIColor.systemBackground))
-                    .foregroundColor(Color(UIColor.label))
-                    .cornerRadius(20)
+                    .foregroundColor(UIConstants.FOREGROUND_COLOR)
+                    .background {
+                        RoundedRectangle(cornerRadius: UIConstants.CORNER_RADIUS, style: .continuous)
+                            .fill(UIConstants.BACKGROUND_COLOR)
+                    }
+                    .overlay {
+                        RoundedRectangle(cornerRadius: UIConstants.CORNER_RADIUS)
+                            .stroke(UIConstants.STROKE_COLOR, lineWidth: UIConstants.STROKE_LINE_WIDTH)
+                    }
                 }
             }
             .alert("Heart Rate Measurement Instructions", isPresented: $showHeartRateTip) {

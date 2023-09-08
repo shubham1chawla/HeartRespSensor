@@ -65,22 +65,27 @@ struct DashboardView: View {
                     }
                     .padding()
                 }
+                .background {
+                    RoundedRectangle(cornerRadius: UIConstants.CORNER_RADIUS, style: .continuous)
+                        .fill(UIConstants.BACKGROUND_COLOR)
+                }
                 .overlay {
-                    RoundedRectangle(cornerRadius: 20)
-                        .stroke(Color.secondary, lineWidth: 1)
+                    RoundedRectangle(cornerRadius: UIConstants.CORNER_RADIUS)
+                        .stroke(UIConstants.STROKE_COLOR, lineWidth: UIConstants.STROKE_LINE_WIDTH)
                 }
                 Spacer()
                 Button {
                     dataService.saveSensorRecord(heartRate: heartRate, respRate: respRate)
                     isUploadSignAlertPresented.toggle()
                 } label: {
-                    Image(systemName: "square.and.arrow.up")
-                    Text("Upload Signs")
+                    Image(systemName: "square.and.arrow.down")
+                    Text("Save Signs")
                 }.buttonStyle(.borderedProminent)
                     .alert("Your health signs has been updated.", isPresented: $isUploadSignAlertPresented) {
                         Button("Dismiss", role: .cancel) { }
                     }
-            }            .navigationTitle("Dashboard")
+            }
+            .navigationTitle("Dashboard")
             .toolbar {
                 HStack {
                     NavigationLink {

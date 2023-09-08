@@ -37,9 +37,7 @@ struct SummaryView: View {
                     }
                     .padding()
                     let userSymptoms = getUserSymptoms()
-                    if !userSymptoms.isEmpty {
-                        Divider()
-                    }
+                    Divider()
                     ForEach(userSymptoms, id: \.self) { userSymptom in
                         HStack {
                             Image(systemName: "staroflife")
@@ -52,14 +50,19 @@ struct SummaryView: View {
                     }
                     HStack {
                         Image(systemName: "clock.arrow.circlepath")
-                        Text("Record created \(userSession.timestamp!.asTimeAgoFormatted())")
+                        Text(userSession.timestamp!.formatted(date: .abbreviated, time: .shortened))
                     }
                     .padding()
                 }
                 .padding()
+                .background {
+                    RoundedRectangle(cornerRadius: UIConstants.CORNER_RADIUS, style: .continuous)
+                        .fill(UIConstants.BACKGROUND_COLOR)
+                        .padding()
+                }
                 .overlay {
-                    RoundedRectangle(cornerRadius: 20)
-                        .stroke(Color.secondary, lineWidth: 1)
+                    RoundedRectangle(cornerRadius: UIConstants.CORNER_RADIUS)
+                        .stroke(UIConstants.STROKE_COLOR, lineWidth: UIConstants.STROKE_LINE_WIDTH)
                         .padding()
                 }
             }

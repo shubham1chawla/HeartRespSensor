@@ -47,8 +47,8 @@ struct SymptomsView: View {
                 dataService.saveUserSymptom(symptom: symptoms[symptomIndex], intensity: intensity)
                 showUploadedAlert.toggle()
             } label: {
-                Image(systemName: "square.and.arrow.up")
-                Text("Upload Symptom")
+                Image(systemName: "square.and.arrow.down")
+                Text("Save Symptom")
             }
             .buttonStyle(.borderedProminent)
             .alert("Your selected symptom has been recorded.", isPresented: $showUploadedAlert) {

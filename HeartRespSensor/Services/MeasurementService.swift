@@ -24,29 +24,28 @@ class MeasurementService: ObservableObject {
                 let duration = try await videoAsset.load(.duration)
                 let frames = Double(fps) * duration.seconds
 
-                // Generating image frames for the request times
+                // Generating image frames for the request times and calculating pixel data
+                var colorIntensities: [Int64] = []
                 let generator = AVAssetImageGenerator(asset: videoAsset)
-                var images: [CGImage] = []
                 for i in stride(from: MeasurementConstants.STARTING_FRAME_COUNT, to: Int(frames), by: MeasurementConstants.FRAME_INTERVAL) {
+                    
+                    // Extracting image from the video at the given frame index
                     let result = try await generator.image(at: CMTime(value: Int64(i), timescale: Int32(fps)))
-                    images.append(result.image)
-                }
-                
-                // Calculating pixel data from the images
-                var colorIntensity: Int64 = 0, colorIntensities: [Int64] = []
-                for image in images {
+                    let image = result.image
+                    
+                    // Extracting color intensities from the extracted image
                     let data = image.dataProvider?.data
                     let ptr: UnsafePointer<UInt8> = CFDataGetBytePtr(data)
                     let length: CFIndex = CFDataGetLength(data)
+                    var colorIntensity: Int64 = 0
                     for i in stride(from: 0, to: length-1, by: 4) {
-                        // red = ptr[i]; green = ptr[i+1]; blue = ptr[i+2]
+                        // red = ptr[i]; green = ptr[i+1]; blue = ptr[i+2]; alpha = ptr[i+3]
                         let r = Int64(ptr[i])
                         let g = Int64(ptr[i+1])
                         let b = Int64(ptr[i+2])
                         colorIntensity += r + g + b
                     }
                     colorIntensities.append(colorIntensity)
-                    colorIntensity = 0
                 }
                 
                 // Averaging the red buckets
@@ -96,7 +95,7 @@ class MeasurementService: ObservableObject {
             guard duration < Double(MeasurementConstants.MAX_TIME_DURATION) else {
                 
                 // Calcuating final measurement after timer is finshed
-                let respRate = (Double(rawRespCount) / duration) * 60
+                let respRate = (Double(rawRespCount) / duration) * 30
                 completion(.success(respRate))
                 
                 // Stopping the timer

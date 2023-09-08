@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import SwiftUI
 
 public struct Keys {
     static let APPLICATION_NAME = "HeartRespSensor"
@@ -41,10 +42,18 @@ public struct MeasurementConstants {
     // Heart rate measurement related constants
     static let STARTING_FRAME_COUNT = 10
     static let FRAME_INTERVAL = 5
-    static let AVERAGE_DIFFERENCE_THRESHOLD = 175000
+    static let AVERAGE_DIFFERENCE_THRESHOLD = 200000
     
     // Resp rate measurement related constants
     static let ACCELEROMETER_INTERVAL = 0.1
     static let ACCELEROMETER_DIFFERENCE_THRESHOLD = 0.05
     
+}
+
+public struct UIConstants {
+    static let CORNER_RADIUS: CGFloat = 20
+    static let STROKE_LINE_WIDTH: CGFloat = 1
+    static let STROKE_COLOR = Color.secondary
+    static let BACKGROUND_COLOR = Color(UIColor.secondarySystemBackground)
+    static let FOREGROUND_COLOR = Color(UIColor.label)
 }
