@@ -33,7 +33,7 @@ struct SymptomsView: View {
             .padding(.vertical)
             Divider()
             Picker(selection: $intensity) {
-                ForEach(Array(intensities.keys), id: \.self) { key in
+                ForEach(Array(intensities.keys).sorted(), id: \.self) { key in
                     Text("\(key) - \(intensities[key]!)").tag(key)
                 }
             } label: {

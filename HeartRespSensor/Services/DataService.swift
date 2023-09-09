@@ -83,11 +83,26 @@ class DataService: ObservableObject {
     func saveUserSymptom(symptom: Symptom, intensity: Int) -> Void {
         let moc = container.viewContext
         
-        // Creating user symptom instance
+        // Loading user session to check all existing symptoms
+        let userSession = getCurrentUserSession()
+        
+        // Checking if the requested symptom is already recorded
+        if let userSymptoms = userSession.userSymptoms {
+            for object in userSymptoms {
+                let userSymtom = object as! UserSymptom
+                if userSymtom.symptom!.id == symptom.id {
+                    userSymtom.intensity = Int16(intensity)
+                    try? moc.save()
+                    return
+                }
+            }
+        }
+        
+        // Creating new user symptom if it is not previously record
         let userSymptom = UserSymptom(context: moc)
         userSymptom.symptom = symptom
         userSymptom.intensity = Int16(intensity)
-        userSymptom.userSession = getCurrentUserSession()
+        userSymptom.userSession = userSession
         
         // Saving the record
         try? moc.save()
