@@ -9,6 +9,8 @@ import SwiftUI
 
 struct SummaryView: View {
     
+    @EnvironmentObject var dataService: DataService
+    
     let userSession: UserSession
     @State private var image: Image?
     
@@ -43,7 +45,7 @@ struct SummaryView: View {
                         Image(systemName: "staroflife")
                         Text(userSymptom.symptom!.name!)
                         Spacer()
-                        Text("\(intensities[Int(userSymptom.intensity)]!) (\(userSymptom.intensity))")
+                        Text("\(dataService.intensities[Int(userSymptom.intensity)]!) (\(userSymptom.intensity))")
                     }
                     .padding()
                     Divider()

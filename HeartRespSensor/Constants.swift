@@ -11,28 +11,9 @@ import SwiftUI
 public struct Keys {
     static let APPLICATION_NAME = "HeartRespSensor"
     static let LAST_USER_SESSION = "lastUserSession"
+    static let SYMPTOMS_JSON = "symptoms"
+    static let INTENSITIES_JSON = "intensities"
 }
-
-public let defaultSymptoms = [
-    1: "Fever",
-    2: "Nausea",
-    3: "Headache",
-    4: "Diarrhea",
-    5: "Soar Throat",
-    6: "Muscle Ache",
-    7: "Loss of Smell or Taste",
-    8: "Cough",
-    9: "Shortness of Breath",
-    10: "Feeling Tired"
-]
-
-public let intensities = [
-    1: "Minimal",
-    2: "Mild",
-    3: "Moderate",
-    4: "Severe",
-    5: "Extreme"
-]
 
 public struct MeasurementConstants {
     

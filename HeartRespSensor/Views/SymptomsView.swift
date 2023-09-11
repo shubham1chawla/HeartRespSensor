@@ -33,8 +33,8 @@ struct SymptomsView: View {
             .padding(.vertical)
             Divider()
             Picker(selection: $intensity) {
-                ForEach(Array(intensities.keys).sorted(), id: \.self) { key in
-                    Text("\(key) - \(intensities[key]!)").tag(key)
+                ForEach(Array(dataService.intensities.keys).sorted(), id: \.self) { key in
+                    Text("\(key) - \(dataService.intensities[key]!)").tag(key)
                 }
             } label: {
                 Image(systemName: "exclamationmark.circle")

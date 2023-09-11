@@ -1,0 +1,22 @@
+[
+    {
+        "label": "Minimal",
+        "value": 1
+    },
+    {
+        "label": "Mild",
+        "value": 2
+    },
+    {
+        "label": "Moderate",
+        "value": 3
+    },
+    {
+        "label": "Severe",
+        "value": 4
+    },
+    {
+        "label": "Extreme",
+        "value": 5
+    }
+]

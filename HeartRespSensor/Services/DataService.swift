@@ -10,14 +10,26 @@ import Foundation
 
 class DataService: ObservableObject {
     
+    struct DecodableSymptom: Decodable {
+        var id: Int
+        var name: String
+    }
+    
+    struct DecodableIntensity: Decodable {
+        var label: String
+        var value: Int
+    }
+    
     let container = NSPersistentContainer(name: Keys.APPLICATION_NAME)
     let defaults = UserDefaults.standard
+    
+    @Published public var intensities = [Int:String]()
     
     init() {
         // Setting up container
         container.loadPersistentStores { description, error in
             if let error = error {
-                print("Core Data failed to load: \(error.localizedDescription)")
+                fatalError(error.localizedDescription)
             }
         }
         
@@ -30,26 +42,11 @@ class DataService: ObservableObject {
             preloadSymptoms()
         }
         
+        // Loading default intensities
+        preloadIntensities()
+        
         // Setting up user session
         setUserSessionId()
-    }
-    
-    private func isSymptomsPreloaded() -> Bool {
-        return defaults.string(forKey: Keys.LAST_USER_SESSION) != nil
-    }
-    
-    private func preloadSymptoms() -> Void {
-        let moc = container.viewContext
-        defaultSymptoms.forEach { id, name in
-            let symptom = Symptom(context: moc)
-            symptom.id = Int16(id)
-            symptom.name = name
-            try? moc.save()
-        }
-    }
-    
-    private func setUserSessionId() -> Void {
-        defaults.set(UUID().uuidString, forKey: Keys.LAST_USER_SESSION)
     }
     
     private func getSqlitePath() -> String? {
@@ -58,6 +55,55 @@ class DataService: ObservableObject {
             .absoluteString
             .replacingOccurrences(of: "file://", with: "")
             .removingPercentEncoding
+    }
+    
+    private func isSymptomsPreloaded() -> Bool {
+        return defaults.string(forKey: Keys.LAST_USER_SESSION) != nil
+    }
+    
+    private func preloadSymptoms() -> Void {
+        // Loading the symptoms from the json file
+        guard let path = Bundle.main.path(forResource: Keys.SYMPTOMS_JSON, ofType: "json") else {
+            fatalError("Couldn't load default symptoms!")
+        }
+        let defaultSymptoms: [DecodableSymptom] = loadFromJson(at: URL(filePath: path))
+        
+        // Saving the loaded symptoms
+        let moc = container.viewContext
+        defaultSymptoms.forEach { decodable in
+            let symptom = Symptom(context: moc)
+            symptom.id = Int16(decodable.id)
+            symptom.name = decodable.name
+            try? moc.save()
+        }
+    }
+    
+    private func preloadIntensities() -> Void {
+        // Loading the intensities from the json file
+        guard let path = Bundle.main.path(forResource: Keys.INTENSITIES_JSON, ofType: "json") else {
+            fatalError("Couldn't load default intensities!")
+        }
+        let defaultIntensities: [DecodableIntensity] = loadFromJson(at: URL(filePath: path))
+        
+        // Setting up intensities
+        var intensities: [Int:String] = [:]
+        defaultIntensities.forEach { decodable in
+            intensities[decodable.value] = decodable.label
+        }
+        self.intensities = intensities
+    }
+    
+    private func loadFromJson<T: Decodable>(at url: URL) -> [T] {
+        do {
+            let data = try Data(contentsOf: url)
+            return try JSONDecoder().decode([T].self, from: data)
+        } catch {
+            fatalError(error.localizedDescription)
+        }
+    }
+    
+    private func setUserSessionId() -> Void {
+        defaults.set(UUID().uuidString, forKey: Keys.LAST_USER_SESSION)
     }
     
     private func getCurrentUserSession() -> UserSession {

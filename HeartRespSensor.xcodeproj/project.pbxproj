@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5111C9652AAEBDF10093142E /* symptoms.json in Resources */ = {isa = PBXBuildFile; fileRef = 5111C9642AAEBDF10093142E /* symptoms.json */; };
+		5111C9672AAEBEDF0093142E /* intensities.json in Resources */ = {isa = PBXBuildFile; fileRef = 5111C9662AAEBEDF0093142E /* intensities.json */; };
 		5126DAE82AA135FA0099E40D /* HeartRespSensorApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5126DAE72AA135FA0099E40D /* HeartRespSensorApp.swift */; };
 		5126DAEA2AA135FA0099E40D /* DashboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5126DAE92AA135FA0099E40D /* DashboardView.swift */; };
 		5126DAEC2AA135FB0099E40D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5126DAEB2AA135FB0099E40D /* Assets.xcassets */; };
@@ -26,6 +28,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		5111C9642AAEBDF10093142E /* symptoms.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = symptoms.json; sourceTree = "<group>"; };
+		5111C9662AAEBEDF0093142E /* intensities.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = intensities.json; sourceTree = "<group>"; };
 		5126DAE42AA135FA0099E40D /* HeartRespSensor.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HeartRespSensor.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5126DAE72AA135FA0099E40D /* HeartRespSensorApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeartRespSensorApp.swift; sourceTree = "<group>"; };
 		5126DAE92AA135FA0099E40D /* DashboardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardView.swift; sourceTree = "<group>"; };
@@ -80,6 +84,8 @@
 				5126DAE72AA135FA0099E40D /* HeartRespSensorApp.swift */,
 				5178695B2AABDC3E00AB54FD /* Extensions.swift */,
 				51FBFBC22AA2998A00C30FAD /* Constants.swift */,
+				5111C9642AAEBDF10093142E /* symptoms.json */,
+				5111C9662AAEBEDF0093142E /* intensities.json */,
 				5126DAF72AA17CFD0099E40D /* HeartRespSensor.xcdatamodeld */,
 				5126DAEB2AA135FB0099E40D /* Assets.xcassets */,
 				5126DAED2AA135FB0099E40D /* Preview Content */,
@@ -179,6 +185,8 @@
 			files = (
 				5126DAEF2AA135FB0099E40D /* Preview Assets.xcassets in Resources */,
 				5126DAEC2AA135FB0099E40D /* Assets.xcassets in Resources */,
+				5111C9652AAEBDF10093142E /* symptoms.json in Resources */,
+				5111C9672AAEBEDF0093142E /* intensities.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

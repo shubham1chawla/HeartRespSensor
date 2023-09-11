@@ -1,0 +1,42 @@
+[
+    {
+        "id": 1,
+        "name": "Fever"
+    },
+    {
+        "id": 2,
+        "name": "Nausea"
+    },
+    {
+        "id": 3,
+        "name": "Headache"
+    },
+    {
+        "id": 4,
+        "name": "Diarrhea"
+    },
+    {
+        "id": 5,
+        "name": "Soar Throat"
+    },
+    {
+        "id": 6,
+        "name": "Muscle Ache"
+    },
+    {
+        "id": 7,
+        "name": "Loss of Smell or Taste"
+    },
+    {
+        "id": 8,
+        "name": "Cough"
+    },
+    {
+        "id": 9,
+        "name": "Shortness of Breath"
+    },
+    {
+        "id": 10,
+        "name": "Feeling Tired"
+    }
+]
