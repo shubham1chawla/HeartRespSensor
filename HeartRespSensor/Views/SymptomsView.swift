@@ -19,43 +19,42 @@ struct SymptomsView: View {
     private let defaults = UserDefaults.standard
     
     var body: some View {
-        VStack {
-            Spacer()
-            Picker(selection: $symptomIndex) {
-                ForEach(Array(symptoms.enumerated()), id: \.element) { index, symptom in
-                    Text(symptom.name!).tag(index)
+        Form {
+            Section("Tell us about your symptoms") {
+                Picker(selection: $symptomIndex) {
+                    ForEach(Array(symptoms.enumerated()), id: \.element) { index, symptom in
+                        Text(symptom.name!).tag(index)
+                    }
+                } label: {
+                    Image(systemName: "staroflife")
+                    Text("Symptom")
                 }
-            } label: {
-                Image(systemName: "staroflife")
-                Text("What's your symptom?")
-            }
-            .pickerStyle(.navigationLink)
-            .padding(.vertical)
-            Divider()
-            Picker(selection: $intensity) {
-                ForEach(Array(dataService.intensities.keys).sorted(), id: \.self) { key in
-                    Text("\(key) - \(dataService.intensities[key]!)").tag(key)
+                .pickerStyle(.navigationLink)
+                Picker(selection: $intensity) {
+                    ForEach(Array(dataService.intensities.keys).sorted(), id: \.self) { key in
+                        Text("\(key) - \(dataService.intensities[key]!)").tag(key)
+                    }
+                } label: {
+                    Image(systemName: "exclamationmark.circle")
+                    Text("Severity")
                 }
-            } label: {
-                Image(systemName: "exclamationmark.circle")
-                Text("How severe is the symptom?")
+                .pickerStyle(.navigationLink)
             }
-            .pickerStyle(.navigationLink)
-            .padding(.vertical)
-            Spacer()
             Button {
                 dataService.saveUserSymptom(symptom: symptoms[symptomIndex], intensity: intensity)
                 showUploadedAlert.toggle()
             } label: {
-                Image(systemName: "square.and.arrow.down")
-                Text("Save Symptom")
+                HStack {
+                    Image(systemName: "square.and.arrow.down")
+                    Text("Save Symptom")
+                }
             }
-            .buttonStyle(.borderedProminent)
+            .frame(maxWidth: .infinity)
             .alert("Your selected symptom has been recorded.", isPresented: $showUploadedAlert) {
                 Button("Dismiss", role: .cancel) { }
             }
         }
         .navigationTitle("Symptoms")
-        .padding()
     }
+
 }
