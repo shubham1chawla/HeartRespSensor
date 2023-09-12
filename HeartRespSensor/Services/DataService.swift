@@ -10,16 +10,6 @@ import Foundation
 
 class DataService: ObservableObject {
     
-    struct DecodableSymptom: Decodable {
-        var id: Int
-        var name: String
-    }
-    
-    struct DecodableIntensity: Decodable {
-        var label: String
-        var value: Int
-    }
-    
     let container = NSPersistentContainer(name: Keys.APPLICATION_NAME)
     let defaults = UserDefaults.standard
     
@@ -34,8 +24,9 @@ class DataService: ObservableObject {
         }
         
         // Printing SQLite location for debugging
-        let path = getSqlitePath()
-        print("SQLite: \(path!)")
+        if defaults.bool(forKey: Keys.IS_DEVELOPER_MODE_ENABLED) {
+            print("SQLite: \(getSqlitePath()!)")
+        }
         
         // Checking if list of symptoms exists
         if (!isSymptomsPreloaded()) {
@@ -63,7 +54,7 @@ class DataService: ObservableObject {
     
     private func preloadSymptoms() -> Void {
         // Loading the symptoms from the json file
-        guard let path = Bundle.main.path(forResource: Keys.SYMPTOMS_JSON, ofType: "json") else {
+        guard let path = Bundle.main.path(forResource: "symptoms", ofType: "json") else {
             fatalError("Couldn't load default symptoms!")
         }
         let defaultSymptoms: [DecodableSymptom] = loadFromJson(at: URL(filePath: path))
@@ -80,7 +71,7 @@ class DataService: ObservableObject {
     
     private func preloadIntensities() -> Void {
         // Loading the intensities from the json file
-        guard let path = Bundle.main.path(forResource: Keys.INTENSITIES_JSON, ofType: "json") else {
+        guard let path = Bundle.main.path(forResource: "intensities", ofType: "json") else {
             fatalError("Couldn't load default intensities!")
         }
         let defaultIntensities: [DecodableIntensity] = loadFromJson(at: URL(filePath: path))

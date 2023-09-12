@@ -10,7 +10,6 @@ import Photos
 
 struct CameraView: View {
     @Environment(\.dismiss) private var dismiss
-    
     @EnvironmentObject var cameraService: CameraService
     @EnvironmentObject var measurementService: MeasurementService
     @EnvironmentObject var photoLibraryService: PhotoLibraryService
@@ -96,7 +95,11 @@ struct CameraView: View {
             switch result {
             case .success(let heartRate):
                 self.heartRate = heartRate
-                photoLibraryService.saveVideo(for: videoUrl)
+                
+                // Saving the video to gallery if developer mode is enabled
+                if defaults.bool(forKey: Keys.IS_DEVELOPER_MODE_ENABLED) {
+                    photoLibraryService.saveVideo(for: videoUrl)
+                }
             case .failure(let error):
                 print(error.localizedDescription)
             }

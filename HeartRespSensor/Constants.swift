@@ -11,8 +11,7 @@ import SwiftUI
 public struct Keys {
     static let APPLICATION_NAME = "HeartRespSensor"
     static let LAST_USER_SESSION = "lastUserSession"
-    static let SYMPTOMS_JSON = "symptoms"
-    static let INTENSITIES_JSON = "intensities"
+    static let IS_DEVELOPER_MODE_ENABLED = "isDeveloperModeEnabled"
 }
 
 public struct MeasurementConstants {

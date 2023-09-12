@@ -9,14 +9,11 @@ import SwiftUI
 
 struct SymptomsView: View {
     @FetchRequest(sortDescriptors: [NSSortDescriptor(key: "id", ascending: true)]) var symptoms: FetchedResults<Symptom>
+    @EnvironmentObject var dataService: DataService
     
     @State private var symptomIndex: Int = 0
     @State private var intensity: Int = 1
     @State private var showUploadedAlert: Bool = false
-    
-    @EnvironmentObject var dataService: DataService
-    
-    private let defaults = UserDefaults.standard
     
     var body: some View {
         Form {

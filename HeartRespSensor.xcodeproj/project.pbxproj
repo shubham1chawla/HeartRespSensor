@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		5111C9652AAEBDF10093142E /* symptoms.json in Resources */ = {isa = PBXBuildFile; fileRef = 5111C9642AAEBDF10093142E /* symptoms.json */; };
 		5111C9672AAEBEDF0093142E /* intensities.json in Resources */ = {isa = PBXBuildFile; fileRef = 5111C9662AAEBEDF0093142E /* intensities.json */; };
+		5111C96A2AAFD65A0093142E /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 5111C9692AAFD65A0093142E /* Settings.bundle */; };
+		5111C96C2AAFDE010093142E /* Types.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5111C96B2AAFDE010093142E /* Types.swift */; };
 		5126DAE82AA135FA0099E40D /* HeartRespSensorApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5126DAE72AA135FA0099E40D /* HeartRespSensorApp.swift */; };
 		5126DAEA2AA135FA0099E40D /* DashboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5126DAE92AA135FA0099E40D /* DashboardView.swift */; };
 		5126DAEC2AA135FB0099E40D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5126DAEB2AA135FB0099E40D /* Assets.xcassets */; };
@@ -30,6 +32,8 @@
 /* Begin PBXFileReference section */
 		5111C9642AAEBDF10093142E /* symptoms.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = symptoms.json; sourceTree = "<group>"; };
 		5111C9662AAEBEDF0093142E /* intensities.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = intensities.json; sourceTree = "<group>"; };
+		5111C9692AAFD65A0093142E /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
+		5111C96B2AAFDE010093142E /* Types.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Types.swift; sourceTree = "<group>"; };
 		5126DAE42AA135FA0099E40D /* HeartRespSensor.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HeartRespSensor.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5126DAE72AA135FA0099E40D /* HeartRespSensorApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeartRespSensorApp.swift; sourceTree = "<group>"; };
 		5126DAE92AA135FA0099E40D /* DashboardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardView.swift; sourceTree = "<group>"; };
@@ -79,11 +83,13 @@
 		5126DAE62AA135FA0099E40D /* HeartRespSensor */ = {
 			isa = PBXGroup;
 			children = (
+				5111C9692AAFD65A0093142E /* Settings.bundle */,
 				51FBFBCB2AA673F700C30FAD /* Views */,
 				51FBFBCA2AA673D500C30FAD /* Services */,
 				5126DAE72AA135FA0099E40D /* HeartRespSensorApp.swift */,
 				5178695B2AABDC3E00AB54FD /* Extensions.swift */,
 				51FBFBC22AA2998A00C30FAD /* Constants.swift */,
+				5111C96B2AAFDE010093142E /* Types.swift */,
 				5111C9642AAEBDF10093142E /* symptoms.json */,
 				5111C9662AAEBEDF0093142E /* intensities.json */,
 				5126DAF72AA17CFD0099E40D /* HeartRespSensor.xcdatamodeld */,
@@ -185,6 +191,7 @@
 			files = (
 				5126DAEF2AA135FB0099E40D /* Preview Assets.xcassets in Resources */,
 				5126DAEC2AA135FB0099E40D /* Assets.xcassets in Resources */,
+				5111C96A2AAFD65A0093142E /* Settings.bundle in Resources */,
 				5111C9652AAEBDF10093142E /* symptoms.json in Resources */,
 				5111C9672AAEBEDF0093142E /* intensities.json in Resources */,
 			);
@@ -200,6 +207,7 @@
 				5126DAFB2AA17D780099E40D /* DataService.swift in Sources */,
 				51FBFBC32AA2998A00C30FAD /* Constants.swift in Sources */,
 				5178694C2AA7C42500AB54FD /* MeasurementService.swift in Sources */,
+				5111C96C2AAFDE010093142E /* Types.swift in Sources */,
 				5126DAF92AA17CFD0099E40D /* HeartRespSensor.xcdatamodeld in Sources */,
 				51FBFBC92AA4926800C30FAD /* CameraView.swift in Sources */,
 				5126DAF62AA1378C0099E40D /* SymptomsView.swift in Sources */,
